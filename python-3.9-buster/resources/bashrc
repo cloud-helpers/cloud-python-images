@@ -109,12 +109,6 @@ export PYVER="$(python -V|cut -d' ' -f2,2)"
 # R
 export R_LIBS_USER="${HOME}/dev/deliveries/R/library"
 
-# ElasticSearch
-export ES_DOMAIN=""
-export ES_USER=""
-export ES_PASSWD=""
-export ES_AUTH=""
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
