@@ -41,6 +41,7 @@ ENV container docker
 ENV ORCL_CLT_VER_MAJOR "21_1"
 ENV ORCL_CLT_VER "211000"
 ENV ORCL_CLT_VER_FULL "21.1.0.0.0"
+ENV NLS_LANG ".AL32UTF8"
 # Pachyderm - Check https://github.com/pachyderm/pachyderm/releases
 ENV PACH_VER "1.12.5"
 # Cloud Helpers Shell scripts - Check https://github.com/cloud-helpers/k8s-job-wrappers/tags for latest release
