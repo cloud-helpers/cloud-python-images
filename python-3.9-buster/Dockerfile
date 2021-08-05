@@ -25,17 +25,17 @@ LABEL authors "Denis Arnaud <denis.arnaud_fedora@m4x.org>"
 # Environment
 
 ## General
-ENV container docker
-ENV HOME /root
+ENV container "docker"
+ENV HOME "/root"
 ## Locales
-ENV LANGUAGE en_US:en
-ENV LANG en_US.UTF-8
-ENV LANG4GEN en_US.utf8
-ENV LC_ALL en_US.UTF-8
+ENV LANGUAGE "en_US:en"
+ENV LANG "en_US.UTF-8"
+ENV LANG4GEN "en_US.utf8"
+ENV LC_ALL "en_US.UTF-8"
 ## SOCI -  Check https://github.com/SOCI/soci/releases for the latest releases
-ENV SOCI_VER 4.0.2
+ENV SOCI_VER "4.0.2"
 ## yq - Check https://github.com/mikefarah/yq/releases/latest for the latest releases
-ENV YQ_VER 4.11.2
+ENV YQ_VER "4.11.2"
 ## Oracle - Check https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html
 ENV container docker
 ENV ORCL_CLT_VER_MAJOR "21_1"
@@ -189,23 +189,23 @@ RUN git clone https://github.com/magicmonty/bash-git-prompt.git \
 
 # Install a few Python modules for data science
 WORKDIR $HOME
-RUN python3 -mpip install -U pip
-RUN python3 -mpip install -U psutil dill joblib
-RUN python3 -mpip install -U setuptools wheel build scikit-build
-RUN python3 -mpip install -U pytest tox twine
-RUN python3 -mpip install -U pyjq pyyaml
-RUN python3 -mpip install -U numpy pandas pandas-datareader
-RUN python3 -mpip install -U scikit-learn
-RUN python3 -mpip install -U matplotlib seaborn
-RUN python3 -mpip install -U dash connexion requests
-RUN python3 -mpip install -U flask flask_restful
-RUN python3 -mpip install -U fastapi
-RUN python3 -mpip install -U jupyterlab
-RUN python3 -mpip install -U opentraveldata OpenTrepWrapper Neobase
-RUN python3 -mpip install -U elasticsearch kafka-python
-RUN python3 -mpip install -U psycopg2
-RUN python3 -mpip install -U boto3
-RUN python3 -mpip install -U azure-cli
+RUN python -mpip install -U pip
+RUN python -mpip install -U psutil dill joblib
+RUN python -mpip install -U setuptools wheel build scikit-build
+RUN python -mpip install -U pytest tox twine
+RUN python -mpip install -U pyjq pyyaml
+RUN python -mpip install -U numpy pandas pandas-datareader
+RUN python -mpip install -U scikit-learn
+RUN python -mpip install -U matplotlib seaborn
+RUN python -mpip install -U dash connexion requests
+RUN python -mpip install -U flask flask_restful
+RUN python -mpip install -U fastapi
+RUN python -mpip install -U jupyterlab
+RUN python -mpip install -U opentraveldata OpenTrepWrapper Neobase
+RUN python -mpip install -U elasticsearch kafka-python
+RUN python -mpip install -U psycopg2
+RUN python -mpip install -U boto3
+RUN python -mpip install -U azure-cli
 
 #
 CMD ["/bin/bash"]
