@@ -200,6 +200,7 @@ RUN python3 -mpip install -U dash connexion requests
 RUN python3 -mpip install -U flask flask_restful
 RUN python3 -mpip install -U fastapi
 RUN python3 -mpip install -U jupyterlab
+RUN python3 -mpip install -U pip
 RUN python3 -mpip install -U opentraveldata OpenTrepWrapper Neobase
 RUN python3 -mpip install -U elasticsearch kafka-python
 RUN python3 -mpip install -U psycopg2
