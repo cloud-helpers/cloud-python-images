@@ -143,6 +143,7 @@ RUN curl -L -s \
     rm -f pachctl_${PACH_VER}_linux_amd64.tar.gz
 
 # Cloud helpers Shell scripts
+RUN touch /usr/local/TMP_TO_BE_REMOVED
 RUN curl -L -s \
 	  https://github.com/cloud-helpers/k8s-job-wrappers/archive/refs/tags/v$LOGSUP_VER.tar.gz \
          -o k8s-job-wrappers.tar.gz && \
