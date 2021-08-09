@@ -45,7 +45,7 @@ ENV NLS_LANG ".AL32UTF8"
 # Pachyderm - Check https://github.com/pachyderm/pachyderm/releases
 ENV PACH_VER "1.12.5"
 # Cloud Helpers Shell scripts - Check https://github.com/cloud-helpers/k8s-job-wrappers/tags for latest release
-ENV LOGSUP_VER "0.0.1"
+ENV LOGSUP_VER "0.0.2"
 
 # Update the system
 #RUN echo "Europe/Paris" > /etc/timezone
