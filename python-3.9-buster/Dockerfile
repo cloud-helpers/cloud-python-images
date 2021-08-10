@@ -45,7 +45,7 @@ ENV NLS_LANG ".AL32UTF8"
 # Pachyderm - Check https://github.com/pachyderm/pachyderm/releases
 ENV PACH_VER "1.12.5"
 # Cloud Helpers Shell scripts - Check https://github.com/cloud-helpers/k8s-job-wrappers/tags for latest release
-ENV LOGSUP_VER "0.0.2"
+ENV KJW_VER "0.0.3"
 
 # Update the system
 #RUN echo "Europe/Paris" > /etc/timezone
@@ -144,12 +144,12 @@ RUN curl -L -s \
 
 # Cloud helpers Shell scripts
 RUN curl -L -s \
-	  https://github.com/cloud-helpers/k8s-job-wrappers/archive/refs/tags/v$LOGSUP_VER.tar.gz \
+	  https://github.com/cloud-helpers/k8s-job-wrappers/archive/refs/tags/v$KJW_VER.tar.gz \
          -o k8s-job-wrappers.tar.gz && \
     tar zxf k8s-job-wrappers.tar.gz && \
     rm -f k8s-job-wrappers.tar.gz && \
-    mv -f k8s-job-wrappers-$LOGSUP_VER /usr/local/ && \
-    ln -s /usr/local/k8s-job-wrappers-$LOGSUP_VER /usr/local/k8s-job-wrappers
+    mv -f k8s-job-wrappers-$KJW_VER /usr/local/ && \
+    ln -s /usr/local/k8s-job-wrappers-$KJW_VER /usr/local/k8s-job-wrappers
 
 # Oracle instant clients
 RUN mkdir -p /opt/oracle/archives && \
