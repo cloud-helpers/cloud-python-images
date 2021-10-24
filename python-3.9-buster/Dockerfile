@@ -31,10 +31,6 @@ ENV LANGUAGE "en_US:en"
 ENV LANG "en_US.UTF-8"
 ENV LANG4GEN "en_US.utf8"
 ENV LC_ALL "en_US.UTF-8"
-## SOCI -  Check https://github.com/SOCI/soci/releases for the latest releases
-ENV SOCI_VER "4.0.2"
-## yq - Check https://github.com/mikefarah/yq/releases/latest for the latest releases
-ENV YQ_VER "4.11.2"
 ## Oracle - Check https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html
 ENV container docker
 ENV ORCL_CLT_VER_MAJOR "21_1"
@@ -43,8 +39,6 @@ ENV ORCL_CLT_VER_FULL "21.1.0.0.0"
 ENV NLS_LANG ".AL32UTF8"
 # Pachyderm - Check https://github.com/pachyderm/pachyderm/releases
 ENV PACH_VER "1.12.5"
-# Cloud Helpers Shell scripts - Check https://github.com/cloud-helpers/k8s-job-wrappers/tags for latest release
-ENV KJW_VER "0.0.4"
 
 # Update the system
 #RUN echo "Europe/Paris" > /etc/timezone
@@ -106,20 +100,22 @@ ADD resources/gitconfig $HOME/.gitconfig
 ADD resources/vimrc $HOME/.vimrc
 RUN chmod 640 $HOME/.bashrc $HOME/.gitconfig $HOME/.vimrc
 
-# yq, the YAML CLI utility like jq, but for YAML
-RUN curl -L -s \
-         https://github.com/mikefarah/yq/releases/download/v$YQ_VER/yq_linux_amd64 \
+# yq, the YAML CLI utility like jq, for YAML (https://github.com/mikefarah/yq)
+RUN YQ_VER=$(curl -Ls https://api.github.com/repos/mikefarah/yq/releases/latest | grep 'tag_name' | cut -d'v' -f2 | cut -d'"' -f1) && \
+	curl -Ls \
+         https://github.com/mikefarah/yq/releases/download/v${YQ_VER}/yq_linux_amd64 \
          -o /usr/local/bin/yq && \
     chmod 775 /usr/local/bin/yq
 
-# SOCI
+# SOCI (https://github.com/SOCI/soci)
 RUN mkdir -p /opt/soci
 ADD resources/soci-debian-cmake.patch /opt/soci/soci-debian-cmake.patch
-RUN curl -L -s \
-         https://github.com/SOCI/soci/archive/refs/tags/v$SOCI_VER.tar.gz \
-         -o /opt/soci/soci-$SOCI_VER.tar.gz && cd /opt/soci && \
-    tar zxf soci-$SOCI_VER.tar.gz && rm -f soci-$SOCI_VER.tar.gz && \
-    cd soci-$SOCI_VER && patch -p1 < ../soci-debian-cmake.patch && \
+RUN SOCI_VER=$(curl -Ls https://api.github.com/repos/SOCI/soci/tags|jq -r '.[].name'|grep "^v"|sort -r|head -1|cut -d'v' -f2,2) && \
+	curl -Ls \
+         https://github.com/SOCI/soci/archive/refs/tags/v${SOCI_VER}.tar.gz \
+         -o /opt/soci/soci-${SOCI_VER}.tar.gz && cd /opt/soci && \
+    tar zxf soci-${SOCI_VER}.tar.gz && rm -f soci-${SOCI_VER}.tar.gz && \
+    cd soci-${SOCI_VER} && patch -p1 < ../soci-debian-cmake.patch && \
     mkdir -p build && cd build && \
     cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release \
           -DSOCI_CXX11=ON -DSOCI_TESTS=OFF .. && \
@@ -133,22 +129,31 @@ RUN curl -L -s \
     rm -f awscliv2.zip && \
     ./aws/install
 
+# SAML-to-AWS (saml2aws)
+# https://github.com/Versent/saml2aws
+RUN SAML2AWS_VER=$(curl -Ls https://api.github.com/repos/Versent/saml2aws/releases/latest | grep 'tag_name' | cut -d'v' -f2 | cut -d'"' -f1) && \
+	curl -Ls \
+	https://github.com/Versent/saml2aws/releases/download/v${SAML2AWS_VER}/saml2aws_${SAML2AWS_VER}_linux_amd64.tar.gz -o saml2aws.tar.gz && \
+	tar zxf saml2aws.tar.gz && rm -f saml2aws.tar.gz README.md LICENSE.md && \
+	mv -f saml2aws /usr/local/bin/ && \
+    chmod 775 /usr/local/bin/saml2aws
+
 # Pachyderm
-RUN curl -L -s \
+RUN curl -Ls \
       https://github.com/pachyderm/pachyderm/releases/download/v${PACH_VER}/pachctl_${PACH_VER}_linux_amd64.tar.gz \
          -o pachctl_${PACH_VER}_linux_amd64.tar.gz && \
     tar zxf pachctl_${PACH_VER}_linux_amd64.tar.gz && \
     mv pachctl_${PACH_VER}_linux_amd64/pachctl /usr/local/bin/ && \
     rm -f pachctl_${PACH_VER}_linux_amd64.tar.gz
 
-# Cloud helpers Shell scripts
-RUN curl -L -s \
-	  https://github.com/cloud-helpers/k8s-job-wrappers/archive/refs/tags/v$KJW_VER.tar.gz \
+# Cloud helpers Shell scripts (https://github.com/cloud-helpers/k8s-job-wrappers)
+RUN KJW_VER=$(curl -Ls https://api.github.com/repos/cloud-helpers/k8s-job-wrappers/tags|jq -r '.[].name'|grep "^v"|sort -r|head -1|cut -d'v' -f2,2) && \
+	curl -Ls \
+	  https://github.com/cloud-helpers/k8s-job-wrappers/archive/refs/tags/v${KJW_VER}.tar.gz \
          -o k8s-job-wrappers.tar.gz && \
-    tar zxf k8s-job-wrappers.tar.gz && \
-    rm -f k8s-job-wrappers.tar.gz && \
-    mv -f k8s-job-wrappers-$KJW_VER /usr/local/ && \
-    ln -s /usr/local/k8s-job-wrappers-$KJW_VER /usr/local/k8s-job-wrappers
+    tar zxf k8s-job-wrappers.tar.gz && rm -f k8s-job-wrappers.tar.gz && \
+    mv -f k8s-job-wrappers-${KJW_VER} /usr/local/ && \
+    ln -s /usr/local/k8s-job-wrappers-${KJW_VER} /usr/local/k8s-job-wrappers
 
 # Oracle instant clients
 RUN mkdir -p /opt/oracle/archives && \
@@ -204,7 +209,7 @@ RUN python -mpip install -U jupyterlab
 RUN python -mpip install -U opentraveldata OpenTrepWrapper Neobase
 RUN python -mpip install -U elasticsearch kafka-python
 RUN python -mpip install -U psycopg2
-RUN python -mpip install -U boto3 awsume saml2aws
+RUN python -mpip install -U boto3 awsume
 RUN python -mpip install -U databricks-cli
 RUN python -mpip install -U azure-cli
 
