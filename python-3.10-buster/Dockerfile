@@ -198,7 +198,7 @@ RUN python -mpip install -U pip
 RUN python -mpip install -U psutil dill joblib
 RUN python -mpip install -U setuptools wheel build scikit-build
 RUN python -mpip install -U pytest tox twine
-RUN python -mpip install -U pyjq pyyaml
+#RUN python -mpip install -U pyjq pyyaml
 RUN python -mpip install -U numpy pandas pandas-datareader
 RUN python -mpip install -U scikit-learn
 RUN python -mpip install -U matplotlib seaborn
