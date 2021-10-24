@@ -1,23 +1,23 @@
 #
-# Source: https://github.com/cloud-helpers/cloud-python/tree/master/python-3.9-buster/Dockerfile
+# Source: https://github.com/cloud-helpers/cloud-python/tree/master/python-3.9-bullseye/Dockerfile
 # On Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/cloud-python/general
-# Usual Docker tag: py39-buster (infrahelpers/cloud-python:py39-buster)
+# Usual Docker tag: py39-bullseye (infrahelpers/cloud-python:py39-bullseye)
 #
 
 # See also:
-# * Python 3.9 Debian Buster:
-#   + Image on Docker Hub/Cloud: https://hub.docker.com/_/python?tab=tags&page=1&name=3.9-buster
-#   + Dockerfile: https://github.com/docker-library/python/blob/master/3.9/buster/Dockerfile
+# * Python 3.9 Debian Bullseye:
+#   + Image on Docker Hub/Cloud: https://hub.docker.com/_/python?tab=tags&page=1&name=3.9-bullseye
+#   + Dockerfile: https://github.com/docker-library/python/blob/master/3.9/bullseye/Dockerfile
 # * The best Docker base image for your Python application, Apr. 2020:
 #   https://pythonspeed.com/articles/base-image-python-docker-images/
-# * General purpose Debian 10 (Buster) C++/Python development image:
+# * General purpose Debian 11 (Bullseye) C++/Python development image:
 #   + Docker Hub: https://cloud.docker.com/u/infrahelpers/repository/docker/infrahelpers/cpppython
 #   + Dockerfile: https://github.com/cpp-projects-showcase/docker-images/tree/master/debian10
-# * Python light based on Debian 10 (Buster):
+# * Python light based on Debian 11 (Bullseye):
 #   + Docker Hub: https://cloud.docker.com/u/infrahelpers/repository/docker/artificialintelligence/python-light
-#   + Dockerfile: #   + Dockerfile: https://github.com/machine-learning-helpers/docker-python-light/blob/master/docker/python-3.9-buster/Dockerfile
+#   + Dockerfile: https://github.com/machine-learning-helpers/docker-python-light/blob/master/docker/python-3.9-bullseye/Dockerfile
 #
-FROM python:3.9-buster
+FROM python:3.9-bullseye
 
 LABEL authors "Denis Arnaud <denis.arnaud_fedora@m4x.org>"
 
@@ -34,7 +34,7 @@ ENV LC_ALL "en_US.UTF-8"
 ## SOCI -  Check https://github.com/SOCI/soci/releases for the latest releases
 ENV SOCI_VER "4.0.2"
 ## yq - Check https://github.com/mikefarah/yq/releases/latest for the latest releases
-ENV YQ_VER "4.11.2"
+ENV YQ_VER "4.13.5"
 ## Oracle - Check https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html
 ENV container docker
 ENV ORCL_CLT_VER_MAJOR "21_1"
@@ -79,16 +79,17 @@ RUN apt-get -qq update && \
 	swig graphviz libopenblas-dev
 RUN apt-get -y install libmpich-dev libopenmpi-dev \
 	sqlite3 libsqlite3-dev \
-        mariadb-client libmariadbclient-dev \
-        postgresql-client \
+	mariadb-client default-libmysqlclient-dev \
+	postgresql-client \
 	libpqxx-dev \
 	libicu-dev libprotobuf-dev protobuf-compiler \
-	python libpython-dev python3 libpython3-dev \
+	python3 libpython3-dev \
 	python3-django libapache2-mod-wsgi-py3 \
-	jq libgeos++-dev \
+	libgeos++-dev \
 	doxygen ghostscript texlive-latex-recommended \
 	r-base r-base-dev \
-        rake
+	rake \
+	jq
 # Dependencies for Azure command-line (CLI)
 # Azure - Check https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
 # apt-get -y install gcc libffi-dev libpython3-dev libssl-devel
