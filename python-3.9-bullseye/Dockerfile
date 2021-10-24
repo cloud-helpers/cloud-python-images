@@ -12,7 +12,7 @@
 #   https://pythonspeed.com/articles/base-image-python-docker-images/
 # * General purpose Debian 11 (Bullseye) C++/Python development image:
 #   + Docker Hub: https://cloud.docker.com/u/infrahelpers/repository/docker/infrahelpers/cpppython
-#   + Dockerfile: https://github.com/cpp-projects-showcase/docker-images/tree/master/debian10
+#   + Dockerfile: https://github.com/cpp-projects-showcase/docker-images/tree/master/debian11
 # * Python light based on Debian 11 (Bullseye):
 #   + Docker Hub: https://cloud.docker.com/u/infrahelpers/repository/docker/artificialintelligence/python-light
 #   + Dockerfile: https://github.com/machine-learning-helpers/docker-python-light/blob/master/docker/python-3.9-bullseye/Dockerfile

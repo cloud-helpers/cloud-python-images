@@ -1,23 +1,23 @@
 #
-# Source: https://github.com/cloud-helpers/cloud-python/tree/master/python-3.9-buster/Dockerfile
+# Source: https://github.com/cloud-helpers/cloud-python/tree/master/python-3.8-bullseye/Dockerfile
 # On Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/cloud-python/general
-# Usual Docker tag: py39-buster (infrahelpers/cloud-python:py39-buster)
+# Usual Docker tag: py38-bullseye (infrahelpers/cloud-python:py38-bullseye)
 #
 
 # See also:
-# * Python 3.9 Debian Buster:
-#   + Image on Docker Hub/Cloud: https://hub.docker.com/_/python?tab=tags&page=1&name=3.9-buster
-#   + Dockerfile: https://github.com/docker-library/python/blob/master/3.9/buster/Dockerfile
+# * Python 3.8 Debian Bullseye:
+#   + Image on Docker Hub/Cloud: https://hub.docker.com/_/python?tab=tags&page=1&name=3.8-bullseye
+#   + Dockerfile: https://github.com/docker-library/python/blob/master/3.8/bullseye/Dockerfile
 # * The best Docker base image for your Python application, Apr. 2020:
 #   https://pythonspeed.com/articles/base-image-python-docker-images/
-# * General purpose Debian 10 (Buster) C++/Python development image:
+# * General purpose Debian 11 (Bullseye) C++/Python development image:
 #   + Docker Hub: https://cloud.docker.com/u/infrahelpers/repository/docker/infrahelpers/cpppython
-#   + Dockerfile: https://github.com/cpp-projects-showcase/docker-images/tree/master/debian10
-# * Python light based on Debian 10 (Buster):
+#   + Dockerfile: https://github.com/cpp-projects-showcase/docker-images/tree/master/debian11
+# * Python light based on Debian 11 (Bullseye):
 #   + Docker Hub: https://cloud.docker.com/u/infrahelpers/repository/docker/artificialintelligence/python-light
-#   + Dockerfile: #   + Dockerfile: https://github.com/machine-learning-helpers/docker-python-light/blob/master/docker/python-3.9-buster/Dockerfile
+#   + Dockerfile: https://github.com/machine-learning-helpers/docker-python-light/blob/master/docker/python-3.8-bullseye/Dockerfile
 #
-FROM python:3.9-buster
+FROM python:3.8-bullseye
 
 LABEL authors "Denis Arnaud <denis.arnaud_fedora@m4x.org>"
 
@@ -73,11 +73,11 @@ RUN apt-get -qq update && \
 	swig graphviz libopenblas-dev
 RUN apt-get -y install libmpich-dev libopenmpi-dev \
 	sqlite3 libsqlite3-dev \
-	mariadb-client libmariadbclient-dev \
+	mariadb-client default-libmysqlclient-dev \
 	postgresql-client \
 	libpqxx-dev \
 	libicu-dev libprotobuf-dev protobuf-compiler \
-	python libpython-dev python3 libpython3-dev \
+	python3 libpython3-dev \
 	python3-django libapache2-mod-wsgi-py3 \
 	libgeos++-dev \
 	doxygen ghostscript texlive-latex-recommended \
@@ -123,7 +123,7 @@ RUN SOCI_VER=$(curl -Ls https://api.github.com/repos/SOCI/soci/tags|jq -r '.[].n
     make install
 
 # AWS: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
-RUN curl -L -s \
+RUN curl -Ls \
          https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip \
          -o awscliv2.zip && \
     unzip -q awscliv2.zip && \

@@ -1,13 +1,13 @@
 #
-# Source: https://github.com/cloud-helpers/cloud-python/tree/master/python-3.9-buster/Dockerfile
+# Source: https://github.com/cloud-helpers/cloud-python/tree/master/python-3.10-buster/Dockerfile
 # On Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/cloud-python/general
-# Usual Docker tag: py39-buster (infrahelpers/cloud-python:py39-buster)
+# Usual Docker tag: py310-buster (infrahelpers/cloud-python:py310-buster)
 #
 
 # See also:
-# * Python 3.9 Debian Buster:
-#   + Image on Docker Hub/Cloud: https://hub.docker.com/_/python?tab=tags&page=1&name=3.9-buster
-#   + Dockerfile: https://github.com/docker-library/python/blob/master/3.9/buster/Dockerfile
+# * Python 3.10 Debian Buster:
+#   + Image on Docker Hub/Cloud: https://hub.docker.com/_/python?tab=tags&page=1&name=3.10-buster
+#   + Dockerfile: https://github.com/docker-library/python/blob/master/3.10/buster/Dockerfile
 # * The best Docker base image for your Python application, Apr. 2020:
 #   https://pythonspeed.com/articles/base-image-python-docker-images/
 # * General purpose Debian 10 (Buster) C++/Python development image:
@@ -15,9 +15,9 @@
 #   + Dockerfile: https://github.com/cpp-projects-showcase/docker-images/tree/master/debian10
 # * Python light based on Debian 10 (Buster):
 #   + Docker Hub: https://cloud.docker.com/u/infrahelpers/repository/docker/artificialintelligence/python-light
-#   + Dockerfile: #   + Dockerfile: https://github.com/machine-learning-helpers/docker-python-light/blob/master/docker/python-3.9-buster/Dockerfile
+#   + Dockerfile: #   + Dockerfile: https://github.com/machine-learning-helpers/docker-python-light/blob/master/docker/python-3.10-buster/Dockerfile
 #
-FROM python:3.9-buster
+FROM python:3.10-buster
 
 LABEL authors "Denis Arnaud <denis.arnaud_fedora@m4x.org>"
 
