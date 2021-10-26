@@ -128,7 +128,8 @@ RUN curl -Ls \
          -o awscliv2.zip && \
     unzip -q awscliv2.zip && \
     rm -f awscliv2.zip && \
-    ./aws/install
+    ./aws/install && \
+	rm -rf ./aws
 
 # SAML-to-AWS (saml2aws)
 # https://github.com/Versent/saml2aws
