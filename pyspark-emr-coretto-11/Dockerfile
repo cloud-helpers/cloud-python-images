@@ -1,7 +1,7 @@
 #
-# Source: https://github.com/cloud-helpers/cloud-python/tree/master/pyspark-emr-6-coretto-11/Dockerfile
+# Source: https://github.com/cloud-helpers/cloud-python/tree/master/pyspark-emr-coretto-11/Dockerfile
 # On Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/cloud-python/general
-# Usual Docker tag: pyspark-emr6 (infrahelpers/cloud-python:pyspark-emr6)
+# Usual Docker tag: pyspark-emr-jdk11 (infrahelpers/cloud-python:pyspark-emr-jdk11)
 #
 # Inspired by: https://aws.amazon.com/blogs/big-data/simplify-your-spark-dependency-management-with-docker-in-emr-6-0-0
 #

@@ -128,6 +128,15 @@ $ docker build -t infrahelpers/cloud-python:py310-buster python-3.10-buster
 ```bash
 $ docker build -t infrahelpers/cloud-python:py39-buster python-3.9-buster
 ```
+  + Amazon Linux 2 for Elastic Map Reduce (EMR) 6, Python 3.7.10:
+```bash
+$ docker build -t infrahelpers/cloud-python:pyspark-emr6 pyspark-emr-6-coretto-8
+```
+  + Amazon Linux 2 for Elastic Map Reduce (EMR), usually with Python 3.7.10
+    (as of beginning 2022):
+```bash
+$ docker build -t infrahelpers/cloud-python:pyspark-emr-jdk11 pyspark-emr-coretto-11
+```
 
 * (Optional) Push the newly built images to Docker Hub.
   That step is usually not needed, as the images are automatically
