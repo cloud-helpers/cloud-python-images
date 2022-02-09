@@ -76,7 +76,3 @@ ENV PYSPARK_PYTHON python3
 
 #
 RUN pip3 install -U pip
-
-# Check that all the Python modules have been successfully installed
-RUN python3 -c "import numpy as np; import pandas as pd; import shap; import fbprophet; import pytorch_forecasting"
-
