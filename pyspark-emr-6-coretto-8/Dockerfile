@@ -78,10 +78,11 @@ ENV PYSPARK_PYTHON python3
 RUN pip3 install -U pip
 RUN pip3 install -U awsume ipython pyjq pyyaml numpy pandas \
     matplotlib seaborn imageio pyarrow shap scikit-learn \
-    pytorch-forecasting \
     graphviz opentraveldata neobase OpenTrepWrapper vaex dask
-RUN pip3 install pystan==2.19.1.1 fbprophet==0.7.1
+#RUN pip3 install -U pytorch-forecasting
+#RUN pip3 install pystan==2.19.1.1 fbprophet==0.7.1
 
 # Check that all the Python modules have been successfully installed
-RUN python3 -c "import numpy as np; import pandas as pd; import shap; import fbprophet; import pytorch_forecasting"
+RUN python3 -c "import numpy as np; import pandas as pd; import shap"
+#RUN python3 -c "import fbprophet; import pytorch_forecasting"
 
