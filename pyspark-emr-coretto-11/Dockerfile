@@ -26,7 +26,7 @@ RUN yum -y install yum-utils
 RUN yum -y groupinstall development
 
 # Install a few more utilities
-RUN yum -y install procps less htop net-tools which sudo man vim git wget curl \
+RUN yum -y install procps less htop net-tools hostname which sudo man vim git wget curl \
       file bash-completion keyutils zlib-devel bzip2-devel gzip tar \
       autoconf automake libtool m4 \
       gcc gcc-c++ cmake cmake3 libffi-devel \
