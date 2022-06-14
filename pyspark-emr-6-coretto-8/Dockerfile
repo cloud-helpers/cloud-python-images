@@ -32,7 +32,9 @@ RUN yum -y install procps less htop net-tools hostname which sudo man vim git wg
       file bash-completion keyutils zlib-devel bzip2-devel gzip tar \
       autoconf automake libtool m4 \
       gcc gcc-c++ cmake cmake3 libffi-devel \
-      readline-devel sqlite-devel python3-devel jq
+      readline-devel sqlite-devel python3-devel jq && yum clean all
+
+RUN yum clean all
 
 #
 WORKDIR /root
@@ -64,7 +66,7 @@ RUN SAML2AWS_VER=$(curl -Ls https://api.github.com/repos/Versent/saml2aws/releas
 
 # Install Python
 RUN yum list python3*
-RUN yum -y install python3 python3-dev python3-pip python3-virtualenv
+RUN yum -y install python3 python3-dev python3-pip python3-virtualenv && yum clean all
 
 # Check the version of Python
 RUN python -V
