@@ -1,0 +1,126 @@
+name: Docker
+
+on:
+  push:
+    branches: patch-1
+  pull_request:
+    branches: main
+
+jobs:
+  docker_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build pyspark-emr-6-coretto-8
+        id: docker_build_1
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: ./pyspark-emr-6-coretto-8
+          file: ./pyspark-emr-6-coretto-8/Dockerfile
+          push: false
+          tags: infrahelpers/cloud-python:pyspark-emr-6
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build pyspark-emr-6-coretto-8-light
+        id: docker_build_2
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: ./pyspark-emr-6-coretto-8-light
+          file: ./pyspark-emr-6-coretto-8-light/Dockerfile
+          push: false
+          tags: infrahelpers/cloud-python:pyspark-emr-6-light
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build pyspark-emr-coretto-11
+        id: docker_build_3
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: ./pyspark-emr-coretto-11
+          file: ./pyspark-emr-coretto-11/Dockerfile
+          push: false
+          tags: infrahelpers/cloud-python:pyspark-emr-jdk11
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build python-3.8-bullseye
+        id: docker_build_4
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: ./python-3.8-bullseye
+          file: ./python-3.8-bullseye/Dockerfile
+          push: false
+          tags: infrahelpers/cloud-python:py38-bullseye
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build python-3.8-buster
+        id: docker_build_5
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: ./python-3.8-buster
+          file: ./python-3.8-buster/Dockerfile
+          push: false
+          tags: infrahelpers/cloud-python:py38-buster
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build python-3.9-bullseye
+        id: docker_build_6
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: ./python-3.9-bullseye
+          file: ./python-3.9-bullseye/Dockerfile
+          push: false
+          tags: infrahelpers/cloud-python:py38-bullseye
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build python-3.9-buster
+        id: docker_build_7
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: ./python-3.9-buster
+          file: ./python-3.9-buster/Dockerfile
+          push: false
+          tags: infrahelpers/cloud-python:py38-buster
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build python-3.10-bullseye
+        id: docker_build_8
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: ./python-3.10-bullseye
+          file: ./python-3.10-bullseye/Dockerfile
+          push: false
+          tags: infrahelpers/cloud-python:py38-bullseye
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build python-3.10-buster
+        id: docker_build_9
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: ./python-3.10-buster
+          file: ./python-3.10-buster/Dockerfile
+          push: false
+          tags: infrahelpers/cloud-python:py38-buster
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
