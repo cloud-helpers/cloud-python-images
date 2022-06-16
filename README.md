@@ -157,7 +157,7 @@ $ docker push infrahelpers/cloud-python:py310-buster
 * (Optional) Push the newly built images to Quay.io.
   That step is usually not needed, as the images are automatically
   built everytime there is
-  [a change on GitHub](https://github.com/machine-learning-helpers/docker-python-light/commits/master))
+  [a change on GitHub](https://github.com/cloud-helpers/cloud-python-images/commits/master))
 	+ Login to Quay:
 ```bash
 $ docker login quay.io
