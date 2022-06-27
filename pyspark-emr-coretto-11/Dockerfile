@@ -1,5 +1,5 @@
 #
-# Source: https://github.com/cloud-helpers/cloud-python/tree/master/pyspark-emr-coretto-11/Dockerfile
+# Source: https://github.com/cloud-helpers/cloud-python/tree/main/pyspark-emr-coretto-11/Dockerfile
 # On Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/cloud-python/general
 # Usual Docker tag: pyspark-emr-jdk11 (infrahelpers/cloud-python:pyspark-emr-jdk11)
 #
@@ -16,21 +16,23 @@ FROM amazoncorretto:11
 LABEL authors "Denis Arnaud <denis.arnaud_fedora@m4x.org>"
 
 # Environment
-ENV container "docker"
-ENV HOME "/root"
+ENV container="docker"
+ENV HOME="/root"
 
 # Update the OS and install a few packages useful for software development
 # (needed for some Python modules like SHAP)
-RUN yum -y update
-RUN yum -y install yum-utils
-RUN yum -y groupinstall development
+RUN yum -y update && \
+	yum -y install yum-utils && \
+	yum -y groupinstall development && \
+	yum clean all
 
 # Install a few more utilities
-RUN yum -y install procps less htop net-tools hostname which sudo man vim git wget curl \
-      file bash-completion keyutils zlib-devel bzip2-devel gzip tar \
-      autoconf automake libtool m4 \
-      gcc gcc-c++ cmake cmake3 libffi-devel \
-      readline-devel sqlite-devel python3-devel jq && yum clean all
+RUN yum -y install procps less htop net-tools hostname which sudo man vim git \
+	wget curl file bash-completion keyutils zlib-devel bzip2-devel gzip tar \
+	autoconf automake libtool m4 \
+	gcc gcc-c++ cmake cmake3 libffi-devel \
+	readline-devel sqlite-devel python3-devel jq && \
+	yum clean all
 
 #
 WORKDIR /root
@@ -61,24 +63,23 @@ RUN SAML2AWS_VER=$(curl -Ls https://api.github.com/repos/Versent/saml2aws/releas
     chmod 775 /usr/local/bin/saml2aws
 
 # Install Python
-RUN yum list python3*
+#RUN yum list python3*
 RUN yum -y install python3 python3-dev python3-pip python3-virtualenv && yum clean all
 
 # Check the version of Python
-RUN python -V
-RUN python3 -V
+RUN python -V && python3 -V
 
 #
 ENV PYSPARK_DRIVER_PYTHON python3
 ENV PYSPARK_PYTHON python3
 
 #
-RUN pip3 install -U pip
-RUN pip3 install -U awsume ipython pyjq pyyaml numpy pandas \
+RUN python3 -mpip install -U pip
+RUN python3 -mpip install -U awsume ipython pyjq pyyaml numpy pandas \
     matplotlib seaborn imageio pyarrow shap scikit-learn \
     pytorch-forecasting \
     graphviz opentraveldata neobase OpenTrepWrapper vaex dask
-RUN pip3 install pystan==2.19.1.1 fbprophet==0.7.1
+RUN python3 -mpip install pystan==2.19.1.1 fbprophet==0.7.1
 
 # Check that all the Python modules have been successfully installed
 RUN python3 -c "import numpy as np; import pandas as pd; import shap; import fbprophet; import pytorch_forecasting"

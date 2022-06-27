@@ -128,9 +128,18 @@ $ docker build -t infrahelpers/cloud-python:py310-buster python-3.10-buster
 ```bash
 $ docker build -t infrahelpers/cloud-python:py39-buster python-3.9-buster
 ```
+  + Amazon Linux 2 for Elastic Map Reduce (EMR) 6 (system Python 3.7.10)
+    and DataBricks (PyEnv-based Python 3.8):
+```bash
+$ docker build -t infrahelpers/cloud-python:pyspark-emr-dbs pyspark-coretto-8-emr-dbs
+```
   + Amazon Linux 2 for Elastic Map Reduce (EMR) 6, Python 3.7.10:
 ```bash
 $ docker build -t infrahelpers/cloud-python:pyspark-emr6 pyspark-emr-6-coretto-8
+```
+  + Amazon Linux 2 for Elastic Map Reduce (EMR) 6, Python 3.7.10, lighter image:
+```bash
+$ docker build -t infrahelpers/cloud-python:pyspark-emr6-light pyspark-emr-6-coretto-8-light
 ```
   + Amazon Linux 2 for Elastic Map Reduce (EMR), usually with Python 3.7.10
     (as of beginning 2022):
@@ -144,6 +153,9 @@ $ docker build -t infrahelpers/cloud-python:pyspark-emr-jdk11 pyspark-emr-corett
   [a change on GitHub](https://github.com/cloud-helpers/cloud-python/commits/master))
 ```bash
 $ docker login
+$ docker push infrahelpers/cloud-python:pyspark-emr-dbs
+$ docker push infrahelpers/cloud-python:pyspark-emr6
+$ docker push infrahelpers/cloud-python:pyspark-emr6-light
 $ docker push infrahelpers/cloud-python:py310-buster
 $ docker push infrahelpers/cloud-python:py39-buster
 ```
