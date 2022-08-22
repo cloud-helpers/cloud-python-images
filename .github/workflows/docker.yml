@@ -25,7 +25,7 @@ jobs:
 
       - name: Build pyspark-emr-6-coretto-8
         id: docker_build_1
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./pyspark-emr-6-coretto-8
@@ -47,7 +47,7 @@ jobs:
 
       - name: Build pyspark-emr-6-coretto-8-light
         id: docker_build_2
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./pyspark-emr-6-coretto-8-light
@@ -56,10 +56,24 @@ jobs:
           tags: infrahelpers/cloud-python:pyspark-emr-6-light
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          platforms: linux/amd64
+
+      - name: Build pyspark-emr-6-coretto-8-light-arm
+        id: docker_build_3
+        uses: docker/build-push-action@v3
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: ./pyspark-emr-6-coretto-8-light-arm
+          file: ./pyspark-emr-6-coretto-8-light-arm/Dockerfile
+          push: false
+          tags: infrahelpers/cloud-python:pyspark-emr-6-light-arm
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/arm64
 
       - name: Build pyspark-emr-coretto-11
-        id: docker_build_3
-        uses: docker/build-push-action@v2
+        id: docker_build_4
+        uses: docker/build-push-action@v3
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./pyspark-emr-coretto-11
