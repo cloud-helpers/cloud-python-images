@@ -40,14 +40,15 @@ RUN yum -y install procps less htop net-tools hostname which sudo man vim git \
 WORKDIR /root
 RUN echo "alias dir='ls -laFh'" >> /root/.bashrc
 
+# FIXME
 # Cloud helpers Shell scripts (https://github.com/cloud-helpers/k8s-job-wrappers)
-RUN KJW_VER=$(curl -Ls https://api.github.com/repos/cloud-helpers/k8s-job-wrappers/tags|jq -r '.[].name'|grep "^v"|sort -r|head -1|cut -d'v' -f2,2) && \
-	curl -Ls \
-	  https://github.com/cloud-helpers/k8s-job-wrappers/archive/refs/tags/v${KJW_VER}.tar.gz \
-         -o k8s-job-wrappers.tar.gz && \
-    tar zxf k8s-job-wrappers.tar.gz && rm -f k8s-job-wrappers.tar.gz && \
-    mv -f k8s-job-wrappers-${KJW_VER} /usr/local/ && \
-    ln -s /usr/local/k8s-job-wrappers-${KJW_VER} /usr/local/k8s-job-wrappers
+#RUN KJW_VER=$(curl -Ls https://api.github.com/repos/cloud-helpers/k8s-job-wrappers/tags|jq -r '.[].name'|grep "^v"|sort -r|head -1|cut -d'v' -f2,2) && \
+#	curl -Ls \
+#	  https://github.com/cloud-helpers/k8s-job-wrappers/archive/refs/tags/v${KJW_VER}.tar.gz \
+#         -o k8s-job-wrappers.tar.gz && \
+#    tar zxf k8s-job-wrappers.tar.gz && rm -f k8s-job-wrappers.tar.gz && \
+#    mv -f k8s-job-wrappers-${KJW_VER} /usr/local/ && \
+#    ln -s /usr/local/k8s-job-wrappers-${KJW_VER} /usr/local/k8s-job-wrappers
 
 # AWS: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
 RUN curl -Ls https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip \
