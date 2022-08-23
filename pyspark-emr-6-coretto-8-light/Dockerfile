@@ -40,6 +40,8 @@ RUN yum -y install procps less htop net-tools hostname which sudo man vim git \
 WORKDIR /root
 RUN echo "alias dir='ls -laFh'" >> /root/.bashrc
 
+RUN uname -m
+
 # Cloud helpers Shell scripts (https://github.com/cloud-helpers/k8s-job-wrappers)
 RUN KJW_VER=$(curl -Ls https://api.github.com/repos/cloud-helpers/k8s-job-wrappers/tags|jq -r '.[].name'|grep "^v"|sort -r|head -1|cut -d'v' -f2,2) && \
 	curl -Ls \
