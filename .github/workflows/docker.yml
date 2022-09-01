@@ -23,9 +23,12 @@ jobs:
           dockerfile: pyspark-emr-6-coretto-8/Dockerfile
           failure-threshold: error
 
+      - name: Run privileged
+        run: sudo docker run --privileged --rm tonistiigi/binfmt --install arm64
+
       - name: Build pyspark-emr-6-coretto-8
         id: docker_build_1
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./pyspark-emr-6-coretto-8
@@ -35,19 +38,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: 'infrahelpers/cloud-python:pyspark-emr-6'
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
-
       - name: Build pyspark-emr-6-coretto-8-light
         id: docker_build_2
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./pyspark-emr-6-coretto-8-light
@@ -56,10 +49,11 @@ jobs:
           tags: infrahelpers/cloud-python:pyspark-emr-6-light
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
 
       - name: Build pyspark-emr-coretto-11
         id: docker_build_3
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./pyspark-emr-coretto-11

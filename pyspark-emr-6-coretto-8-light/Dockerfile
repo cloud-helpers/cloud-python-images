@@ -40,6 +40,8 @@ RUN yum -y install procps less htop net-tools hostname which sudo man vim git \
 WORKDIR /root
 RUN echo "alias dir='ls -laFh'" >> /root/.bashrc
 
+RUN uname -m
+
 # Cloud helpers Shell scripts (https://github.com/cloud-helpers/k8s-job-wrappers)
 RUN KJW_VER=$(curl -Ls https://api.github.com/repos/cloud-helpers/k8s-job-wrappers/tags|jq -r '.[].name'|grep "^v"|sort -r|head -1|cut -d'v' -f2,2) && \
 	curl -Ls \
@@ -50,16 +52,19 @@ RUN KJW_VER=$(curl -Ls https://api.github.com/repos/cloud-helpers/k8s-job-wrappe
     ln -s /usr/local/k8s-job-wrappers-${KJW_VER} /usr/local/k8s-job-wrappers
 
 # AWS: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
-RUN curl -Ls https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip \
+RUN ARCH=$(uname -m) && \
+	curl -Ls https://awscli.amazonaws.com/awscli-exe-linux-${ARCH}.zip \
          -o awscliv2.zip && \
     unzip -q awscliv2.zip && rm -f awscliv2.zip && ./aws/install && \
 	rm -rf ./aws
 
 # SAML-to-AWS (saml2aws)
 # https://github.com/Versent/saml2aws
-RUN SAML2AWS_VER=$(curl -Ls https://api.github.com/repos/Versent/saml2aws/releases/latest | grep 'tag_name' | cut -d'v' -f2 | cut -d'"' -f1) && \
+
+RUN [[ $(uname -m) = "aarch64" ]] && ARCH2="arm64" || ARCH2="amd64" && \
+	SAML2AWS_VER=$(curl -Ls https://api.github.com/repos/Versent/saml2aws/releases/latest | grep 'tag_name' | cut -d'v' -f2 | cut -d'"' -f1) && \
 	curl -Ls \
-	https://github.com/Versent/saml2aws/releases/download/v${SAML2AWS_VER}/saml2aws_${SAML2AWS_VER}_linux_amd64.tar.gz -o saml2aws.tar.gz && \
+	https://github.com/Versent/saml2aws/releases/download/v${SAML2AWS_VER}/saml2aws_${SAML2AWS_VER}_linux_${ARCH2}.tar.gz -o saml2aws.tar.gz && \
 	tar zxf saml2aws.tar.gz && rm -f saml2aws.tar.gz README.md LICENSE.md && \
 	mv -f saml2aws /usr/local/bin/ && \
     chmod 775 /usr/local/bin/saml2aws
