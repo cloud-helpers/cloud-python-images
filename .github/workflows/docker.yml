@@ -1,13 +1,12 @@
 name: Docker
 
 on:
-  push:
-    branches: patch-1
   pull_request:
     branches: main
 
 jobs:
   docker_build:
+    environment: docker-hub
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
