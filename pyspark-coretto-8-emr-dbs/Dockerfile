@@ -4,7 +4,7 @@
 # Usual Docker tag: pyspark-emr-dbs (infrahelpers/cloud-python:pyspark-emr-dbs)
 #
 # Inspired by:
-# *	EMR: https://aws.amazon.com/blogs/big-data/simplify-your-spark-dependency-management-with-docker-in-emr-6-0-0
+# * EMR: https://aws.amazon.com/blogs/big-data/simplify-your-spark-dependency-management-with-docker-in-emr-6-0-0
 # * DataBricks: https://github.com/databricks/containers
 #
 # AWS Coretto / EMR
@@ -48,7 +48,7 @@ RUN yum -y update && \
 
 # Install a few more utilities, including pre-requisites for Python
 RUN yum -y install procps net-tools hostname iproute coreutils \
-	openssl-devel less htop passwd which sudo man vim git tar \
+	openssl-devel less htop passwd which sudo man vim git tar tree \
 	wget curl file bash-completion keyutils zlib-devel bzip2-devel gzip \
 	autoconf automake libtool m4 gcc gcc-c++ cmake cmake3 libffi-devel \
 	readline-devel sqlite-devel jq fuse fuse-libs && \

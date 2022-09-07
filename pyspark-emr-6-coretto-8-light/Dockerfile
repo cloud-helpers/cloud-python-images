@@ -30,7 +30,7 @@ RUN yum -y update && \
 
 # Install a few more utilities
 RUN yum -y install procps less htop net-tools hostname which sudo man vim git \
-	wget curl file bash-completion keyutils zlib-devel bzip2-devel gzip tar \
+	wget curl file bash-completion keyutils zlib-devel bzip2-devel gzip tar tree \
 	autoconf automake libtool m4 \
 	gcc gcc-c++ cmake cmake3 libffi-devel \
 	readline-devel sqlite-devel python3-devel jq && \
