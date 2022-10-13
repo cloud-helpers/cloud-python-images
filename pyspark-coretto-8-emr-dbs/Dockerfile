@@ -35,7 +35,7 @@ LABEL authors "Denis Arnaud <denis.arnaud_fedora@m4x.org>"
 ENV container="docker"
 ENV HOME="/root"
 ENV HOMEUSR="/home/ubuntu"
-ENV PYVERSION="3.8.13"
+ENV PYVERSION="3.8.15"
 ENV PYSPARK_PYTHON="/databricks/python3/bin/python3"
 ENV PYSPARK_DRIVER_PYTHON="python3"
 

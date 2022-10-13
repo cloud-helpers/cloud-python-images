@@ -33,9 +33,9 @@ ENV LANG4GEN "en_US.utf8"
 ENV LC_ALL "en_US.UTF-8"
 ## Oracle - Check https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html
 ENV container docker
-ENV ORCL_CLT_VER_MAJOR "21_1"
-ENV ORCL_CLT_VER "211000"
-ENV ORCL_CLT_VER_FULL "21.1.0.0.0"
+ENV ORCL_CLT_VER_MAJOR "21_7"
+ENV ORCL_CLT_VER "217000"
+ENV ORCL_CLT_VER_FULL "21.7.0.0.0"
 ENV NLS_LANG ".AL32UTF8"
 # Pachyderm - Check https://github.com/pachyderm/pachyderm/releases
 ENV PACH_VER "1.12.5"
