@@ -43,13 +43,13 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Build pyspark-emr-6-coretto-8-light
+      - name: Build pyspark-emr-6-light-multi-platform
         id: docker_build_2
         uses: docker/build-push-action@v3
         with:
           builder: ${{ steps.buildx.outputs.name }}
-          context: ./pyspark-emr-6-coretto-8-light
-          file: ./pyspark-emr-6-coretto-8-light/Dockerfile
+          context: ./pyspark-emr-6-coretto-11-light
+          file: ./pyspark-emr-6-coretto-11-light/Dockerfile
           push: true
           tags: infrahelpers/cloud-python:pyspark-emr-6-light-multi-platform
           cache-from: type=gha
