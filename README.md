@@ -118,22 +118,39 @@ $ cd cloud-python
 ```
 
 * Build the OCI images (here with Docker, but any other tool may be used):
-  + Python 3.10 (work in progress, does not work yet, as of Aug. 2021)
+  + Python 3.11
+    - `py311-bullseye` tag: Debian Bullseye / Python 3.11:
+```bash
+$ docker build -t infrahelpers/cloud-python:py311-bullseye python-3.11-bullseye
+```
+    - `py311-buster` tag: Debian Buster / Python 3.11:
+```bash
+$ docker build -t infrahelpers/cloud-python:py311-buster python-3.11-buster
+```
+  + Python 3.10
+    - `py310-bullseye` tag: Debian Bullseye / Python 3.10:
+```bash
+$ docker build -t infrahelpers/cloud-python:py311-bullseye python-3.10-bullseye
+```
     - `py310-buster` tag: Debian Buster / Python 3.10:
 ```bash
 $ docker build -t infrahelpers/cloud-python:py310-buster python-3.10-buster
 ```
   + Python 3.9
+    - `py39-bullseye` tag: Debian Bullseye / Python 3.9:
+```bash
+$ docker build -t infrahelpers/cloud-python:py39-bullseye python-3.9-bullseye
+```
     - `py39-buster` tag: Debian Buster / Python 3.9:
 ```bash
 $ docker build -t infrahelpers/cloud-python:py39-buster python-3.9-buster
 ```
-  + Amazon Linux 2 for Elastic Map Reduce (EMR) 6 (system Python 3.7.10)
+  + Amazon Linux 2 for Elastic Map Reduce (EMR) 6 (system Python 3.7.15)
     and DataBricks (PyEnv-based Python 3.8):
 ```bash
 $ docker build -t infrahelpers/cloud-python:pyspark-emr-dbs pyspark-coretto-8-emr-dbs
 ```
-  + Amazon Linux 2 for Elastic Map Reduce (EMR) 6, Python 3.7.10:
+  + Amazon Linux 2 for Elastic Map Reduce (EMR) 6, Python 3.7.15:
 ```bash
 $ docker build -t infrahelpers/cloud-python:pyspark-emr6 pyspark-emr-6-coretto-8
 ```
@@ -141,8 +158,8 @@ $ docker build -t infrahelpers/cloud-python:pyspark-emr6 pyspark-emr-6-coretto-8
 ```bash
 $ docker build -t infrahelpers/cloud-python:pyspark-emr6-light pyspark-emr-6-coretto-8-light
 ```
-  + Amazon Linux 2 for Elastic Map Reduce (EMR), usually with Python 3.7.10
-    (as of beginning 2022):
+  + Amazon Linux 2 for Elastic Map Reduce (EMR), usually with Python 3.7.15
+    (as of end 2022):
 ```bash
 $ docker build -t infrahelpers/cloud-python:pyspark-emr-jdk11 pyspark-emr-coretto-11
 ```
