@@ -82,5 +82,7 @@ RUN python3 -mpip install -U awsume ipython pyjq pyyaml numpy pandas \
 RUN python3 -mpip install pystan==2.19.1.1 fbprophet==0.7.1
 
 # Check that all the Python modules have been successfully installed
+# The LD_LIBRARY_PATH env setting is a work around
+ENV LD_LIBRARY_PATH "/usr/local/lib/python3.7/site-packages/nvidia/cublas/lib:/usr/local/lib/python3.7/site-packages/nvidia/cudnn/lib"
 RUN python3 -c "import numpy as np; import pandas as pd; import shap; import fbprophet; import pytorch_forecasting"
 
