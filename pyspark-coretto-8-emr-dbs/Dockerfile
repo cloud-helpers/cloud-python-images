@@ -13,8 +13,8 @@
 #  + https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/docker-install.html
 # The underlying operating system (OS) is Amazon Linux 2, i.e., based on a
 # RedHat Linux 7 with some Amazon specific additions.
-# The Python version is 3.7.10, installed with the Linux distribution.
-# Note that, up to at least version 6.4.0 of EMR, only Java 8 is supported.
+# The Python version is 3.7.15, installed with the Linux distribution.
+# Note that, up to at least version 6.9.0 of EMR, only Java 8 is supported.
 # With Java 11+, it generates errors like https://confluence.atlassian.com/confkb/unrecognized-jvm-gc-options-when-using-java-11-1002472841.html
 #
 # DataBricks
@@ -25,7 +25,7 @@
 #
 # The underlying operating system (OS) is Ubuntu 18.04 LTS (Bionic Beaver).
 # The Python installation is a virtual environment in /databricks/python3,
-# and the version is 3.8.0. The main Python (3.8.13) is installed with PyEnv.
+# and the version is 3.8. The main Python (3.8.16) is installed with PyEnv.
 #
 FROM amazoncorretto:8
 
@@ -35,7 +35,7 @@ LABEL authors "Denis Arnaud <denis.arnaud_fedora@m4x.org>"
 ENV container="docker"
 ENV HOME="/root"
 ENV HOMEUSR="/home/ubuntu"
-ENV PYVERSION="3.8.15"
+ENV PYVERSION="3.8.16"
 ENV PYSPARK_PYTHON="/databricks/python3/bin/python3"
 ENV PYSPARK_DRIVER_PYTHON="python3"
 
@@ -131,6 +131,6 @@ RUN source $HOME/.bashrc && \
 	/databricks/python3/bin/python3 -mpip install -U six ipython numpy pandas \
 	pyarrow matplotlib jinja2
 
-# Revert to system Python (3.7.10) for the global environment
+# Revert to system Python (3.7.15) for the global environment
 RUN pyenv global system
 

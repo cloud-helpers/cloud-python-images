@@ -10,7 +10,7 @@
 #  + https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/docker-install.html
 # The underlying operating system (OS) is Amazon Linux 2, i.e., based on a
 # RedHat Linux 7 with some Amazon specific additions.
-# Note that, up to at least version 6.4.0 of EMR, only Java 8 is supported.
+# Note that, up to at least version 6.9.0 of EMR, only Java 8 is supported.
 # With Java 11+, it generates errors like https://confluence.atlassian.com/confkb/unrecognized-jvm-gc-options-when-using-java-11-1002472841.html
 #
 FROM amazoncorretto:8
