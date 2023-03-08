@@ -64,8 +64,9 @@ Any additional Python module may be installed either:
 ```bash
 $ python3 -mpip install -r requirements.txt
 ```
-* In a dedicated virtual environment, controlled by `pipenv` through local `Pipfile`
-  (and potentially `Pipfile.lock`) files, which should be versioned:
+* In a dedicated virtual environment, controlled by `pipenv` through
+  local `Pipfile` (and potentially `Pipfile.lock`) files,
+  which should be versioned:
 ```bash
 $ pipenv --rm; pipenv install; pipenv install --dev
 ```
@@ -144,6 +145,11 @@ $ docker build -t infrahelpers/cloud-python:py39-bullseye python-3.9-bullseye
     - `py39-buster` tag: Debian Buster / Python 3.9:
 ```bash
 $ docker build -t infrahelpers/cloud-python:py39-buster python-3.9-buster
+```
+  + Amazon Linux 2 for Elastic Map Reduce (EMR) 6 and DataBricks
+    with a single Python installation, with more freedom on its version:
+```bash
+$ docker build -t infrahelpers/cloud-python:pyspark-emr-dbs-univ pyspark-coretto-8-emr-dbs-universal-python
 ```
   + Amazon Linux 2 for Elastic Map Reduce (EMR) 6 (system Python 3.7.15)
     and DataBricks (PyEnv-based Python 3.8):
