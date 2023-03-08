@@ -101,7 +101,7 @@ RUN SAML2AWS_VER=$(curl -Ls https://api.github.com/repos/Versent/saml2aws/releas
 ADD bashrc $HOME/.bashrc
 
 # Install the PYTHON_MICRO_VERSION version of Python
-RUN curl -Ls \
+RUN curl -kLs \
 	https://www.python.org/ftp/python/${PYTHON_MICRO_VERSION}/Python-${PYTHON_MICRO_VERSION}.tgz \
 	-o Python-${PYTHON_MICRO_VERSION}.tgz && \
 	tar zxf Python-${PYTHON_MICRO_VERSION}.tgz && \
