@@ -146,6 +146,11 @@ $ docker build -t infrahelpers/cloud-python:py39-bullseye python-3.9-bullseye
 ```bash
 $ docker build -t infrahelpers/cloud-python:py39-buster python-3.9-buster
 ```
+
+* Deprecated. Use images for Data Processing Pipelines (DPP) instead
+  ([DPP images on Docker Hub](https://hub.docker.com/repository/docker/infrahelpers/dpp/general)
+  and
+  [DPP images on GitHub](https://github.com/data-engineering-helpers/dpp-images))
   + Amazon Linux 2 for Elastic Map Reduce (EMR) 6 and DataBricks
     with a single Python installation, with more freedom on its version,
 	with JDK 8:
