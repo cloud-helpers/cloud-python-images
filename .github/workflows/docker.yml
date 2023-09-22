@@ -22,22 +22,22 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Lint pyspark-emr-6-coretto-8
+      - name: Lint pyspark-emr-6-corretto-8
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: pyspark-emr-6-coretto-8/Dockerfile
+          dockerfile: pyspark-emr-6-corretto-8/Dockerfile
           failure-threshold: error
 
       - name: Run privileged
         run: sudo docker run --privileged --rm tonistiigi/binfmt --install arm64
 
-      - name: Build pyspark-emr-6-coretto-8
+      - name: Build pyspark-emr-6-corretto-8
         id: docker_build_1
         uses: docker/build-push-action@v4
         with:
           builder: ${{ steps.buildx.outputs.name }}
-          context: ./pyspark-emr-6-coretto-8
-          file: ./pyspark-emr-6-coretto-8/Dockerfile
+          context: ./pyspark-emr-6-corretto-8
+          file: ./pyspark-emr-6-corretto-8/Dockerfile
           push: false
           tags: infrahelpers/cloud-python:pyspark-emr-6
           cache-from: type=gha
@@ -48,22 +48,23 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           builder: ${{ steps.buildx.outputs.name }}
-          context: ./pyspark-emr-6-coretto-11-light
-          file: ./pyspark-emr-6-coretto-11-light/Dockerfile
+          context: ./pyspark-emr-6-corretto-11-light
+          file: ./pyspark-emr-6-corretto-11-light/Dockerfile
           push: true
           tags: infrahelpers/cloud-python:pyspark-emr-6-light-multi-platform
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
 
-      - name: Build pyspark-emr-coretto-11
+      - name: Build pyspark-emr-corretto-11
         id: docker_build_3
         uses: docker/build-push-action@v4
         with:
           builder: ${{ steps.buildx.outputs.name }}
-          context: ./pyspark-emr-coretto-11
-          file: ./pyspark-emr-coretto-11/Dockerfile
+          context: ./pyspark-emr-corretto-11
+          file: ./pyspark-emr-corretto-11/Dockerfile
           push: false
           tags: infrahelpers/cloud-python:pyspark-emr-jdk11
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
