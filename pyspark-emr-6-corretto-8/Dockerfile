@@ -82,9 +82,9 @@ RUN python3 -mpip install -U awsume ipython pyjq pyyaml numpy pandas \
     matplotlib seaborn imageio pyarrow shap scikit-learn \
     graphviz opentraveldata neobase OpenTrepWrapper vaex dask
 #RUN python3 -mpip install -U pytorch-forecasting
-#RUN python3 -mpip install pystan==2.19.1.1 fbprophet==0.7.1
+#RUN python3 -mpip install -U prophet
 
 # Check that all the Python modules have been successfully installed
 RUN python3 -c "import numpy as np; import pandas as pd; import shap"
-#RUN python3 -c "import fbprophet; import pytorch_forecasting"
+#RUN python3 -c "import prophet; import pytorch_forecasting"
 

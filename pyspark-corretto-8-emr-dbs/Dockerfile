@@ -101,11 +101,11 @@ RUN python3 -mpip install -U six ipython numpy pandas pyarrow matplotlib jinja2
 #RUN python3 -mpip install -U awsume pyjq pyyaml seaborn imageio shap \
 #	scikit-learn graphviz opentraveldata neobase OpenTrepWrapper vaex dask
 #RUN python3 -mpip install -U pytorch-forecasting
-#RUN python3 -mpip install pystan==2.19.1.1 fbprophet==0.7.1
+#RUN python3 -mpip install -U prophet
 
 # Check that all the Python modules have been successfully installed
 RUN python3 -c "import numpy as np; import pandas as pd"
-#RUN python3 -c "import shap; import fbprophet; import pytorch_forecasting"
+#RUN python3 -c "import shap; import prophet; import pytorch_forecasting"
 
 # Python, PyEnv and pipenv (https://www.python.org/downloads/)
 RUN git clone --depth 1 https://github.com/pyenv/pyenv.git $HOME/.pyenv

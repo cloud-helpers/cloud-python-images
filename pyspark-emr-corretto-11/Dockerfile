@@ -78,11 +78,11 @@ RUN python3 -mpip install -U pip
 RUN python3 -mpip install -U awsume ipython pyjq pyyaml numpy pandas \
     matplotlib seaborn imageio pyarrow shap scikit-learn \
     pytorch-forecasting \
-    graphviz opentraveldata neobase OpenTrepWrapper vaex dask
-RUN python3 -mpip install pystan==2.19.1.1 fbprophet==0.7.1
+	graphviz opentraveldata neobase OpenTrepWrapper vaex dask
+RUN python3 -mpip install -U prophet
 
 # Check that all the Python modules have been successfully installed
 # The LD_LIBRARY_PATH env setting is a work around
 ENV LD_LIBRARY_PATH "/usr/local/lib/python3.7/site-packages/nvidia/cublas/lib:/usr/local/lib/python3.7/site-packages/nvidia/cudnn/lib"
-RUN python3 -c "import numpy as np; import pandas as pd; import shap; import fbprophet; import pytorch_forecasting"
+RUN python3 -c "import numpy as np; import pandas as pd; import shap; import prophet; import pytorch_forecasting"
 
