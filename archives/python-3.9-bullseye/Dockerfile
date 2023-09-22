@@ -33,12 +33,10 @@ ENV LANG4GEN "en_US.utf8"
 ENV LC_ALL "en_US.UTF-8"
 ## Oracle - Check https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html
 ENV container docker
-ENV ORCL_CLT_VER_MAJOR "21_7"
-ENV ORCL_CLT_VER "217000"
-ENV ORCL_CLT_VER_FULL "21.7.0.0.0dbru"
+ENV ORCL_CLT_VER_MAJOR "21_11"
+ENV ORCL_CLT_VER "2111000"
+ENV ORCL_CLT_VER_FULL "21.11.0.0.0dbru"
 ENV NLS_LANG ".AL32UTF8"
-# Pachyderm - Check https://github.com/pachyderm/pachyderm/releases
-ENV PACH_VER "1.12.5"
 
 # Update the system
 #RUN echo "Europe/Paris" > /etc/timezone
@@ -139,14 +137,6 @@ RUN SAML2AWS_VER=$(curl -Ls https://api.github.com/repos/Versent/saml2aws/releas
 	tar zxf saml2aws.tar.gz && rm -f saml2aws.tar.gz README.md LICENSE.md && \
 	mv -f saml2aws /usr/local/bin/ && \
     chmod 775 /usr/local/bin/saml2aws
-
-# Pachyderm
-RUN curl -Ls \
-      https://github.com/pachyderm/pachyderm/releases/download/v${PACH_VER}/pachctl_${PACH_VER}_linux_amd64.tar.gz \
-         -o pachctl_${PACH_VER}_linux_amd64.tar.gz && \
-    tar zxf pachctl_${PACH_VER}_linux_amd64.tar.gz && \
-    mv pachctl_${PACH_VER}_linux_amd64/pachctl /usr/local/bin/ && \
-    rm -f pachctl_${PACH_VER}_linux_amd64.tar.gz
 
 # Cloud helpers Shell scripts (https://github.com/cloud-helpers/k8s-job-wrappers)
 RUN KJW_VER=$(curl -Ls https://api.github.com/repos/cloud-helpers/k8s-job-wrappers/tags|jq -r '.[].name'|grep "^v"|sort -r|head -1|cut -d'v' -f2,2) && \

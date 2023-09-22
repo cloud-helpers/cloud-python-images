@@ -13,10 +13,10 @@ These images are based on the
 [latest Python-ready Linux distributions](https://hub.docker.com/_/python).
 
 As well explained in
-[a PythonSpeed article from April 2020](https://pythonspeed.com/articles/base-image-python-docker-images/),
+[a PythonSpeed article from June 2023](https://pythonspeed.com/articles/base-image-python-docker-images/),
 the best light images for Python production operations are based on Debian
-(the latest stable release being, as of mid-2021,
-[Debian 10, also known as Buster](https://www.debian.org/releases/buster/)).
+(the latest stable release being, as of end-2023,
+[Debian 12, also known as Bookworm](https://www.debian.org/releases/bookworm/)).
 
 These Python OCI images are aimed at deploying Data Science applications
 on operational environments such as cloud-based Kubernetes
@@ -47,10 +47,16 @@ cloud vendors (_e.g._, Azure and AWS command-line utilities) and cloud-native
 tools (_e.g._, Pachyderm), on top of the native images
 maintained by the
 [Docker Python project](https://github.com/docker-library/python)
-* [Python 3.10 (to come)]https://github.com/docker-library/python/tree/master/3.10/)
-  + [Python 3.10 - Debian Buster](https://github.com/docker-library/python/tree/master/3.10/buster)
-* [Python 3.9]https://github.com/docker-library/python/tree/master/3.9/)
-  + [Python 3.9 - Debian Buster](https://github.com/docker-library/python/tree/master/3.9/buster)
+* [Python 3.12-rc](https://github.com/docker-library/python/tree/master/3.12-rc/)
+  + [Python 3.12 - Debian Bookworm](https://github.com/docker-library/python/tree/master/3.12-rc/bookworm)
+* [Python 3.11](https://github.com/docker-library/python/tree/master/3.11/)
+  + [Python 3.11 - Debian Bookworm](https://github.com/docker-library/python/tree/master/3.11/bookworm)
+* [Python 3.10](https://github.com/docker-library/python/tree/master/3.10/)
+  + [Python 3.10 - Debian Bookworm](https://github.com/docker-library/python/tree/master/3.10/bookworm)
+* [Python 3.9](https://github.com/docker-library/python/tree/master/3.9/)
+  + [Python 3.9 - Debian Bookworm](https://github.com/docker-library/python/tree/master/3.9/bookworm)
+* [Python 3.8](https://github.com/docker-library/python/tree/master/3.8/)
+  + [Python 3.8 - Debian Bookworm](https://github.com/docker-library/python/tree/master/3.8/bookworm)
 
 In the OCI image, Python packages are installed by the `pip` utility.
 For testing purposes, outside of the container, Python virtual environments
@@ -88,14 +94,18 @@ The Docker images of this repository are intended to run any API applications.
   + Docker Cloud:
     https://cloud.docker.com/u/infrahelpers/repository/docker/artificialintelligence/python-light
 * [Native Python OCI images](https://github.com/docker-library/python):
-  + [Python 3.10](https://github.com/docker-library/python/tree/master/3.10-rc)
-    - https://github.com/docker-library/python/tree/master/3.10-rc/buster
+  + [Python 3.12-rc](https://github.com/docker-library/python/tree/master/3.12-rc)
+    - https://github.com/docker-library/python/tree/master/3.12-rc/bookworm
+  + [Python 3.11](https://github.com/docker-library/python/tree/master/3.11)
+    - https://github.com/docker-library/python/tree/master/3.11/bookworm
+  + [Python 3.10](https://github.com/docker-library/python/tree/master/3.10)
+    - https://github.com/docker-library/python/tree/master/3.10/bookworm
   + [Python 3.9](https://github.com/docker-library/python/tree/master/3.9)
-    - https://github.com/docker-library/python/tree/master/3.9/buster
+    - https://github.com/docker-library/python/tree/master/3.9/bookworm
+  + [Python 3.8](https://github.com/docker-library/python/tree/master/3.8)
+    - https://github.com/docker-library/python/tree/master/3.8/bookworm
 * [Debian releases](https://wiki.debian.org/DebianReleases)
-  + [Debian 11 Bullseye (TBA)](https://wiki.debian.org/DebianBullseye)
-  + [Debian 10 Buster](https://wiki.debian.org/DebianBuster)
-  + [Debian 9 Stretch](https://wiki.debian.org/DebianStretch)
+  + [Debian 12 Bookworm](https://wiki.debian.org/DebianBookworm)
 
 # Simple use
 * Download the Docker image:
@@ -104,7 +114,7 @@ $ docker pull infrahelpers/cloud-python
 ```
 
 * Launch Dash or Flask within the Docker image (where `<port>` corresponds
-  to the local port on which Dash or Flask is launched; the default is 8050):
+  to the local port on which Dash or Flask is launched; the default is `8050`):
 ```bash
 $ docker run -it infrahelpers/cloud-python
 ```
@@ -119,32 +129,30 @@ $ cd cloud-python
 ```
 
 * Build the OCI images (here with Docker, but any other tool may be used):
-  + Python 3.11
-    - `py311-bullseye` tag: Debian Bullseye / Python 3.11:
+  + Python 3.12
+    - `py312-bookworm` tag: Debian Bookworm / Python 3.12:
 ```bash
-$ docker build -t infrahelpers/cloud-python:py311-bullseye python-3.11-bullseye
+$ docker build -t infrahelpers/cloud-python:py312-bookworm python-3.12-bookworm
 ```
-    - `py311-buster` tag: Debian Buster / Python 3.11:
+  + Python 3.11
+    - `py311-bookworm` tag: Debian Bookworm / Python 3.11:
 ```bash
-$ docker build -t infrahelpers/cloud-python:py311-buster python-3.11-buster
+$ docker build -t infrahelpers/cloud-python:py311-bookworm python-3.11-bookworm
 ```
   + Python 3.10
-    - `py310-bullseye` tag: Debian Bullseye / Python 3.10:
+    - `py310-bookworm` tag: Debian Bookworm / Python 3.10:
 ```bash
-$ docker build -t infrahelpers/cloud-python:py311-bullseye python-3.10-bullseye
-```
-    - `py310-buster` tag: Debian Buster / Python 3.10:
-```bash
-$ docker build -t infrahelpers/cloud-python:py310-buster python-3.10-buster
+$ docker build -t infrahelpers/cloud-python:py310-bookworm python-3.10-bookworm
 ```
   + Python 3.9
-    - `py39-bullseye` tag: Debian Bullseye / Python 3.9:
+    - `py39-bookworm` tag: Debian Bookworm / Python 3.9:
 ```bash
-$ docker build -t infrahelpers/cloud-python:py39-bullseye python-3.9-bullseye
+$ docker build -t infrahelpers/cloud-python:py39-bookworm python-3.9-bookworm
 ```
-    - `py39-buster` tag: Debian Buster / Python 3.9:
+  + Python 3.8
+    - `py38-bookworm` tag: Debian Bookworm / Python 3.8:
 ```bash
-$ docker build -t infrahelpers/cloud-python:py39-buster python-3.9-buster
+$ docker build -t infrahelpers/cloud-python:py38-bookworm python-3.8-bookworm
 ```
 
 * Deprecated. Use images for Data Processing Pipelines (DPP) instead
@@ -198,14 +206,15 @@ $ docker login
 $ docker push infrahelpers/cloud-python:pyspark-emr-dbs
 $ docker push infrahelpers/cloud-python:pyspark-emr6
 $ docker push infrahelpers/cloud-python:pyspark-emr6-light
-$ docker push infrahelpers/cloud-python:py310-buster
-$ docker push infrahelpers/cloud-python:py39-buster
+$ docker push infrahelpers/cloud-python:py311-bookworm
+$ docker push infrahelpers/cloud-python:py310-bookworm
+$ docker push infrahelpers/cloud-python:py39-bookworm
+$ docker push infrahelpers/cloud-python:py38-bookworm
 ```
 
 * Choose which image should be the latest, tag it and upload it to Docker Hub:
 ```bash
-$ docker tag infrahelpers/cloud-python:py39-buster infrahelpers/cloud-python:py310-buster
-$ docker push infrahelpers/cloud-python:py310-buster
+$ docker push infrahelpers/cloud-python:py311-bookworm
 ```
 
 * (Optional) Push the newly built images to Quay.io.
@@ -216,22 +225,32 @@ $ docker push infrahelpers/cloud-python:py310-buster
 ```bash
 $ docker login quay.io
 ```
+	+ Python 3.11:
+```bash
+$ docker tag infrahelpers/cloud-python:py311-bookworm quay.io/infrahelpers/cloud-python:py311-bookworm
+$ docker push quay.io/infrahelpers/cloud-python:py311-bookworm
+```
 	+ Python 3.10:
 ```bash
-$ docker tag infrahelpers/cloud-python:py310-buster quay.io/infrahelpers/cloud-python:py310-buster
-$ docker push quay.io/infrahelpers/cloud-python:py310-buster
+$ docker tag infrahelpers/cloud-python:py310-bookworm quay.io/infrahelpers/cloud-python:py310-bookworm
+$ docker push quay.io/infrahelpers/cloud-python:py310-bookworm
 ```
 	+ Python 3.9:
 ```bash
-$ docker tag infrahelpers/cloud-python:py39-buster quay.io/infrahelpers/cloud-python:py39-buster
-$ docker push quay.io/infrahelpers/cloud-python:py39-buster
+$ docker tag infrahelpers/cloud-python:py39-bookworm quay.io/infrahelpers/cloud-python:py39-bookworm
+$ docker push quay.io/infrahelpers/cloud-python:py39-bookworm
+```
+	+ Python 3.8:
+```bash
+$ docker tag infrahelpers/cloud-python:py38-bookworm quay.io/infrahelpers/cloud-python:py38-bookworm
+$ docker push quay.io/infrahelpers/cloud-python:py38-bookworm
 ```
 
 * Shutdown the Docker image
 ```bash
 $ docker ps
 CONTAINER ID IMAGE                    COMMAND                   CREATED        STATUS        PORTS                  NAMES
-7b69efc9dc9a ai/python-light          "/bin/sh -c 'python …"    48 seconds ago Up 47 seconds 0.0.0.0:9000->8050/tcp vigilant_merkle
+7b69efc9dc9a ai/cloud-python        "/bin/sh -c 'python …"    48 seconds ago Up 47 seconds 0.0.0.0:9000->8050/tcp vigilant_merkle
 $ docker kill vigilant_merkle
 vigilant_merkle
 $ docker ps

@@ -1,23 +1,23 @@
 #
-# Source: https://github.com/cloud-helpers/cloud-python/tree/master/python-3.8-bullseye/Dockerfile
+# Source: https://github.com/cloud-helpers/cloud-python/tree/master/python-3.11-bookworm/Dockerfile
 # On Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/cloud-python/general
-# Usual Docker tag: py38-bullseye (infrahelpers/cloud-python:py38-bullseye)
+# Usual Docker tag: py311-bookworm (infrahelpers/cloud-python:py311-bookworm)
 #
 
 # See also:
-# * Python 3.8 Debian Bullseye:
-#   + Image on Docker Hub/Cloud: https://hub.docker.com/_/python?tab=tags&page=1&name=3.8-bullseye
-#   + Dockerfile: https://github.com/docker-library/python/blob/master/3.8/bullseye/Dockerfile
-# * The best Docker base image for your Python application, Apr. 2020:
+# * Python 3.11 Debian Bookworm:
+#   + Image on Docker Hub/Cloud: https://hub.docker.com/_/python?tab=tags&page=1&name=3.11-bookworm
+#   + Dockerfile: https://github.com/docker-library/python/blob/master/3.11/bookworm/Dockerfile
+# * The best Docker base image for your Python application, June 2023:
 #   https://pythonspeed.com/articles/base-image-python-docker-images/
-# * General purpose Debian 11 (Bullseye) C++/Python development image:
-#   + Docker Hub: https://cloud.docker.com/u/infrahelpers/repository/docker/infrahelpers/cpppython
-#   + Dockerfile: https://github.com/cpp-projects-showcase/docker-images/tree/master/debian11
-# * Python light based on Debian 11 (Bullseye):
-#   + Docker Hub: https://cloud.docker.com/u/infrahelpers/repository/docker/artificialintelligence/python-light
-#   + Dockerfile: https://github.com/machine-learning-helpers/docker-python-light/blob/master/docker/python-3.8-bullseye/Dockerfile
+# * General purpose Debian 12 (Bookworm) C++/Python development image:
+#   + Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/cpppython/general
+#   + Dockerfile: https://github.com/cpp-projects-showcase/docker-images/tree/master/debian12
+# * Python light based on Debian 12 (Bookworm):
+#   + Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/python-light/general
+#   + Dockerfile: https://github.com/machine-learning-helpers/docker-python-light/blob/master/docker/python-3.11-bookworm/Dockerfile
 #
-FROM python:3.8-bullseye
+FROM python:3.11-bookworm
 
 LABEL authors "Denis Arnaud <denis.arnaud_fedora@m4x.org>"
 
@@ -33,12 +33,10 @@ ENV LANG4GEN "en_US.utf8"
 ENV LC_ALL "en_US.UTF-8"
 ## Oracle - Check https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html
 ENV container docker
-ENV ORCL_CLT_VER_MAJOR "21_7"
-ENV ORCL_CLT_VER "217000"
-ENV ORCL_CLT_VER_FULL "21.7.0.0.0dbru"
+ENV ORCL_CLT_VER_MAJOR "21_11"
+ENV ORCL_CLT_VER "2111000"
+ENV ORCL_CLT_VER_FULL "21.11.0.0.0dbru"
 ENV NLS_LANG ".AL32UTF8"
-# Pachyderm - Check https://github.com/pachyderm/pachyderm/releases
-ENV PACH_VER "1.12.5"
 
 # Update the system
 #RUN echo "Europe/Paris" > /etc/timezone
@@ -48,7 +46,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends \
 	apt-utils apt-transport-https \
 	ca-certificates locales locales-all tzdata sudo \
 	zip unzip gzip bzip2 xz-utils tar p7zip-full \
-	curl wget netcat net-tools aptitude
+	curl wget netcat-traditional net-tools aptitude
 
 # Generate the locales
 RUN locale-gen $LANG && \
@@ -128,7 +126,7 @@ RUN curl -Ls \
          -o awscliv2.zip && \
     unzip -q awscliv2.zip && \
     rm -f awscliv2.zip && \
-    ./aws/install && \
+	./aws/install && \
 	rm -rf ./aws
 
 # SAML-to-AWS (saml2aws)
@@ -139,14 +137,6 @@ RUN SAML2AWS_VER=$(curl -Ls https://api.github.com/repos/Versent/saml2aws/releas
 	tar zxf saml2aws.tar.gz && rm -f saml2aws.tar.gz README.md LICENSE.md && \
 	mv -f saml2aws /usr/local/bin/ && \
     chmod 775 /usr/local/bin/saml2aws
-
-# Pachyderm
-RUN curl -Ls \
-      https://github.com/pachyderm/pachyderm/releases/download/v${PACH_VER}/pachctl_${PACH_VER}_linux_amd64.tar.gz \
-         -o pachctl_${PACH_VER}_linux_amd64.tar.gz && \
-    tar zxf pachctl_${PACH_VER}_linux_amd64.tar.gz && \
-    mv pachctl_${PACH_VER}_linux_amd64/pachctl /usr/local/bin/ && \
-    rm -f pachctl_${PACH_VER}_linux_amd64.tar.gz
 
 # Cloud helpers Shell scripts (https://github.com/cloud-helpers/k8s-job-wrappers)
 RUN KJW_VER=$(curl -Ls https://api.github.com/repos/cloud-helpers/k8s-job-wrappers/tags|jq -r '.[].name'|grep "^v"|sort -r|head -1|cut -d'v' -f2,2) && \
@@ -199,7 +189,7 @@ RUN python -mpip install -U pip
 RUN python -mpip install -U psutil dill joblib
 RUN python -mpip install -U setuptools wheel build scikit-build
 RUN python -mpip install -U pytest tox twine
-RUN python -mpip install -U pyjq pyyaml
+#RUN python -mpip install -U pyjq pyyaml
 RUN python -mpip install -U numpy pandas pandas-datareader
 RUN python -mpip install -U scikit-learn
 RUN python -mpip install -U matplotlib seaborn
@@ -217,3 +207,4 @@ RUN python -mpip install -U azure-cli
 
 #
 CMD ["/bin/bash"]
+
