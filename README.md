@@ -159,42 +159,30 @@ $ docker build -t infrahelpers/cloud-python:py38-bookworm python-3.8-bookworm
   ([DPP images on Docker Hub](https://hub.docker.com/repository/docker/infrahelpers/dpp/general)
   and
   [DPP images on GitHub](https://github.com/data-engineering-helpers/dpp-images))
-  + Amazon Linux 2 for Elastic Map Reduce (EMR) 6 and DataBricks
-    with a single Python installation, with more freedom on its version,
-	with JDK 8:
-```bash
-$ docker build -t infrahelpers/cloud-python:pyspark-emr-dbs-univ pyspark-coretto-8-emr-dbs-universal-python
-```
   + Amazon Linux 2 for Elastic Map Reduce (EMR) 6 (system Python 3.7.15)
     and DataBricks (PyEnv-based Python 3.8), with JDK 8:
 ```bash
-$ docker build -t infrahelpers/cloud-python:pyspark-emr-dbs pyspark-coretto-8-emr-dbs
+$ docker build -t infrahelpers/cloud-python:pyspark-emr-dbs pyspark-corretto-8-emr-dbs
 ```
   + Amazon Linux 2 for Elastic Map Reduce (EMR) 6, Python 3.7.15, with JDK 8:
 ```bash
-$ docker build -t infrahelpers/cloud-python:pyspark-emr6 pyspark-emr-6-coretto-8
+$ docker build -t infrahelpers/cloud-python:pyspark-emr6 pyspark-emr-6-corretto-8
 ```
   + Amazon Linux 2 for Elastic Map Reduce (EMR) 6, Python 3.7.10,
     lighter image, with JDK 8:
 ```bash
-$ docker build -t infrahelpers/cloud-python:pyspark-emr6-light pyspark-emr-6-coretto-8-light
-```
-  + [WIP] Amazon Linux 2 for Elastic Map Reduce (EMR) 6 and DataBricks
-    with a single Python installation, with more freedom on its version,
-	with JDK 11:
-```bash
-$ docker build -t infrahelpers/cloud-python:pyspark-emr-dbs-univ-jdk11 pyspark-coretto-11-emr-dbs-universal-python
+$ docker build -t infrahelpers/cloud-python:pyspark-emr6-light pyspark-emr-6-corretto-8-light
 ```
   + [WIP] Amazon Linux 2 for Elastic Map Reduce (EMR), usually with
     Python 3.7.15 (as of end 2022), with JDK 11:
 ```bash
-$ docker build -t infrahelpers/cloud-python:pyspark-emr-jdk11 pyspark-emr-coretto-11
+$ docker build -t infrahelpers/cloud-python:pyspark-emr-jdk11 pyspark-emr-corretto-11
 ```
 
 * In addition to what the Docker Hub builds, the CI/CD (GitHub Actions)
   pipeline also builds the
   `infrahelpers/cloud-python:pyspark-emr-6-light-multi-platform` image,
-  from the `pyspark-emr-6-coretto-11-light/` directory,
+  from the `pyspark-emr-6-corretto-11-light/` directory,
   on two CPU architectures, namely the classical AMD64 and the newer ARM64
 
 * (Optional) Push the newly built images to Docker Hub.
@@ -204,6 +192,7 @@ $ docker build -t infrahelpers/cloud-python:pyspark-emr-jdk11 pyspark-emr-corett
 ```bash
 $ docker login
 $ docker push infrahelpers/cloud-python:pyspark-emr-dbs
+$ docker push infrahelpers/cloud-python:pyspark-emr-jdk11
 $ docker push infrahelpers/cloud-python:pyspark-emr6
 $ docker push infrahelpers/cloud-python:pyspark-emr6-light
 $ docker push infrahelpers/cloud-python:py311-bookworm

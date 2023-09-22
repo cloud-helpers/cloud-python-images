@@ -1,5 +1,5 @@
 #
-# Source: https://github.com/cloud-helpers/cloud-python/tree/main/pyspark-emr-6-coretto-8/Dockerfile
+# Source: https://github.com/cloud-helpers/cloud-python/tree/main/pyspark-emr-6-corretto-8/Dockerfile
 # On Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/cloud-python/general
 # Usual Docker tag: pyspark-emr6 (infrahelpers/cloud-python:pyspark-emr6)
 #

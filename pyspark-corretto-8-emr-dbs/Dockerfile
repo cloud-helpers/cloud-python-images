@@ -1,5 +1,5 @@
 #
-# Source: https://github.com/cloud-helpers/cloud-python/tree/main/pyspark-coretto-8-emr-dbs/Dockerfile
+# Source: https://github.com/cloud-helpers/cloud-python/tree/main/pyspark-corretto-8-emr-dbs/Dockerfile
 # On Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/cloud-python/general
 # Usual Docker tag: pyspark-emr-dbs (infrahelpers/cloud-python:pyspark-emr-dbs)
 #
@@ -7,8 +7,8 @@
 # * EMR: https://aws.amazon.com/blogs/big-data/simplify-your-spark-dependency-management-with-docker-in-emr-6-0-0
 # * DataBricks: https://github.com/databricks/containers
 #
-# AWS Coretto / EMR
-# ===================
+# AWS Corretto / EMR
+# ==================
 #  + https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/what-is-corretto-8.html
 #  + https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/docker-install.html
 # The underlying operating system (OS) is Amazon Linux 2, i.e., based on a
