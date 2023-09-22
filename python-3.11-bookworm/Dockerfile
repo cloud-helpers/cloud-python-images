@@ -76,12 +76,12 @@ RUN apt-get -y install libmpich-dev libopenmpi-dev \
 	libpqxx-dev \
 	libicu-dev libprotobuf-dev protobuf-compiler \
 	python3 libpython3-dev \
-	python3-django libapache2-mod-wsgi-py3 \
 	libgeos++-dev \
 	doxygen ghostscript texlive-latex-recommended \
 	r-base r-base-dev \
 	rake \
 	jq
+#RUN apt-get -y install python3-django libapache2-mod-wsgi-py3
 # Dependencies for Azure command-line (CLI)
 # Azure - Check https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
 # apt-get -y install gcc libffi-dev libpython3-dev libssl-devel
