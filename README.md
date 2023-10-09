@@ -47,8 +47,8 @@ cloud vendors (_e.g._, Azure and AWS command-line utilities) and cloud-native
 tools (_e.g._, Pachyderm), on top of the native images
 maintained by the
 [Docker Python project](https://github.com/docker-library/python)
-* [Python 3.12-rc](https://github.com/docker-library/python/tree/master/3.12-rc/)
-  + [Python 3.12 - Debian Bookworm](https://github.com/docker-library/python/tree/master/3.12-rc/bookworm)
+* [Python 3.12](https://github.com/docker-library/python/tree/master/3.12/)
+  + [Python 3.12 - Debian Bookworm](https://github.com/docker-library/python/tree/master/3.12/bookworm)
 * [Python 3.11](https://github.com/docker-library/python/tree/master/3.11/)
   + [Python 3.11 - Debian Bookworm](https://github.com/docker-library/python/tree/master/3.11/bookworm)
 * [Python 3.10](https://github.com/docker-library/python/tree/master/3.10/)
@@ -94,8 +94,8 @@ The Docker images of this repository are intended to run any API applications.
   + Docker Cloud:
     https://cloud.docker.com/u/infrahelpers/repository/docker/artificialintelligence/python-light
 * [Native Python OCI images](https://github.com/docker-library/python):
-  + [Python 3.12-rc](https://github.com/docker-library/python/tree/master/3.12-rc)
-    - https://github.com/docker-library/python/tree/master/3.12-rc/bookworm
+  + [Python 3.12](https://github.com/docker-library/python/tree/master/3.12)
+    - https://github.com/docker-library/python/tree/master/3.12/bookworm
   + [Python 3.11](https://github.com/docker-library/python/tree/master/3.11)
     - https://github.com/docker-library/python/tree/master/3.11/bookworm
   + [Python 3.10](https://github.com/docker-library/python/tree/master/3.10)
@@ -213,6 +213,11 @@ $ docker push infrahelpers/cloud-python:py311-bookworm
 	+ Login to Quay:
 ```bash
 $ docker login quay.io
+```
+	+ Python 3.12:
+```bash
+$ docker tag infrahelpers/cloud-python:py312-bookworm quay.io/infrahelpers/cloud-python:py312-bookworm
+$ docker push quay.io/infrahelpers/cloud-python:py312-bookworm
 ```
 	+ Python 3.11:
 ```bash
