@@ -25,7 +25,7 @@
 #
 # The underlying operating system (OS) is Ubuntu 18.04 LTS (Bionic Beaver).
 # The Python installation is a virtual environment in /databricks/python3,
-# and the version is 3.8. The main Python (3.8.16) is installed with PyEnv.
+# and the version is 3.8. The main Python (3.8.18) is installed with PyEnv.
 #
 FROM amazoncorretto:8
 
@@ -35,7 +35,7 @@ LABEL authors "Denis Arnaud <denis.arnaud_fedora@m4x.org>"
 ENV container="docker"
 ENV HOME="/root"
 ENV HOMEUSR="/home/ubuntu"
-ENV PYVERSION="3.8.16"
+ENV PYVERSION="3.8.18"
 ENV PYSPARK_PYTHON="/databricks/python3/bin/python3"
 ENV PYSPARK_DRIVER_PYTHON="python3"
 

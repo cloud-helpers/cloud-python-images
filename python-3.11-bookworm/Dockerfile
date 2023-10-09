@@ -41,7 +41,7 @@ ENV NLS_LANG ".AL32UTF8"
 # Update the system
 #RUN echo "Europe/Paris" > /etc/timezone
 RUN echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/90-yes
-RUN apt-get -qq update
+RUN apt-get -qq update && apt-get -y upgrade
 RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends \
 	apt-utils apt-transport-https \
 	ca-certificates locales locales-all tzdata sudo \
