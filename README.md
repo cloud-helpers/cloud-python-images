@@ -86,7 +86,7 @@ The Docker images of this repository are intended to run any API applications.
 * [Images on Quay.io (TBD)](https://quay.io/repository/infrahelpers/cloud-python)
 * General purpose C++ and Python with Debian OCI images:
   + GitHub:
-    https://github.com/cpp-projects-showcase/docker-images/tree/master/debian10
+    https://github.com/cpp-projects-showcase/docker-images/tree/master/debian12
   + Docker Cloud:
     https://cloud.docker.com/u/infrahelpers/repository/docker/infrahelpers/cpppython
 * General purpose light Python/Debian OCI images:
