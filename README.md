@@ -15,15 +15,15 @@ These images are based on the
 As well explained in
 [a PythonSpeed article from June 2023](https://pythonspeed.com/articles/base-image-python-docker-images/),
 the best light images for Python production operations are based on Debian
-(the latest stable release being, as of end-2023,
-[Debian 12, also known as Bookworm](https://www.debian.org/releases/bookworm/)).
+(the latest stable release being, as of end-2025,
+[Debian 13, also known as Trixie](https://www.debian.org/releases/trixie/)).
 
 These Python OCI images are aimed at deploying Data Science applications
 on operational environments such as cloud-based Kubernetes
 clusters or services (_e.g._,
 [AWS EKS](https://aws.amazon.com/eks),
 [Azure AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/),
-[IBM/RedHat OpenShift v4](https://www.redhat.com/en/openshift-4) or
+[IBM/RedHat OpenShift v4](https://docs.redhat.com/en/documentation/openshift_container_platform) or
 [Google GKE](https://cloud.google.com/kubernetes-engine)).
 Examples of Python deployments are API applications, typically with one
 of [Flask](https://flask.palletsprojects.com/),
@@ -47,16 +47,14 @@ cloud vendors (_e.g._, Azure and AWS command-line utilities) and cloud-native
 tools (_e.g._, Pachyderm), on top of the native images
 maintained by the
 [Docker Python project](https://github.com/docker-library/python)
+* [Python 3.14](https://github.com/docker-library/python/tree/master/3.14/)
+  * [Python 3.14 - Debian Trixie](https://github.com/docker-library/python/tree/master/3.14/trixie)
+* [Python 3.13](https://github.com/docker-library/python/tree/master/3.13/)
+  * [Python 3.13 - Debian Trixie](https://github.com/docker-library/python/tree/master/3.13/trixie)
 * [Python 3.12](https://github.com/docker-library/python/tree/master/3.12/)
-  + [Python 3.12 - Debian Bookworm](https://github.com/docker-library/python/tree/master/3.12/bookworm)
+  * [Python 3.12 - Debian Trixie](https://github.com/docker-library/python/tree/master/3.12/trixie)
 * [Python 3.11](https://github.com/docker-library/python/tree/master/3.11/)
-  + [Python 3.11 - Debian Bookworm](https://github.com/docker-library/python/tree/master/3.11/bookworm)
-* [Python 3.10](https://github.com/docker-library/python/tree/master/3.10/)
-  + [Python 3.10 - Debian Bookworm](https://github.com/docker-library/python/tree/master/3.10/bookworm)
-* [Python 3.9](https://github.com/docker-library/python/tree/master/3.9/)
-  + [Python 3.9 - Debian Bookworm](https://github.com/docker-library/python/tree/master/3.9/bookworm)
-* [Python 3.8](https://github.com/docker-library/python/tree/master/3.8/)
-  + [Python 3.8 - Debian Bookworm](https://github.com/docker-library/python/tree/master/3.8/bookworm)
+  * [Python 3.11 - Debian Trixie](https://github.com/docker-library/python/tree/master/3.11/trixie)
 
 In the OCI image, Python packages are installed by the `pip` utility.
 For testing purposes, outside of the container, Python virtual environments
@@ -85,27 +83,25 @@ The Docker images of this repository are intended to run any API applications.
 * [Images on Docker Cloud](https://cloud.docker.com/u/infrahelpers/repository/docker/infrahelpers/cloud-python)
 * [Images on Quay.io (TBD)](https://quay.io/repository/infrahelpers/cloud-python)
 * General purpose C++ and Python with Debian OCI images:
-  + GitHub:
+  * GitHub:
     https://github.com/cpp-projects-showcase/docker-images/tree/master/debian12
-  + Docker Cloud:
+  * Docker Cloud:
     https://cloud.docker.com/u/infrahelpers/repository/docker/infrahelpers/cpppython
 * General purpose light Python/Debian OCI images:
-  + GitHub: https://github.com/machine-learning-helpers/docker-python-light
-  + Docker Cloud:
+  * GitHub: https://github.com/machine-learning-helpers/docker-python-light
+  * Docker Cloud:
     https://cloud.docker.com/u/infrahelpers/repository/docker/artificialintelligence/python-light
 * [Native Python OCI images](https://github.com/docker-library/python):
-  + [Python 3.12](https://github.com/docker-library/python/tree/master/3.12)
-    - https://github.com/docker-library/python/tree/master/3.12/bookworm
-  + [Python 3.11](https://github.com/docker-library/python/tree/master/3.11)
-    - https://github.com/docker-library/python/tree/master/3.11/bookworm
-  + [Python 3.10](https://github.com/docker-library/python/tree/master/3.10)
-    - https://github.com/docker-library/python/tree/master/3.10/bookworm
-  + [Python 3.9](https://github.com/docker-library/python/tree/master/3.9)
-    - https://github.com/docker-library/python/tree/master/3.9/bookworm
-  + [Python 3.8](https://github.com/docker-library/python/tree/master/3.8)
-    - https://github.com/docker-library/python/tree/master/3.8/bookworm
+  * [Python 3.14](https://github.com/docker-library/python/tree/master/3.14)
+    * https://github.com/docker-library/python/tree/master/3.14/trixie
+  * [Python 3.13](https://github.com/docker-library/python/tree/master/3.13)
+    * https://github.com/docker-library/python/tree/master/3.13/trixie
+  * [Python 3.12](https://github.com/docker-library/python/tree/master/3.12)
+    * https://github.com/docker-library/python/tree/master/3.12/trixie
+  * [Python 3.11](https://github.com/docker-library/python/tree/master/3.11)
+    * https://github.com/docker-library/python/tree/master/3.11/trixie
 * [Debian releases](https://wiki.debian.org/DebianReleases)
-  + [Debian 12 Bookworm](https://wiki.debian.org/DebianBookworm)
+  * [Debian 13 Trixie](https://wiki.debian.org/DebianTrixie)
 
 # Simple use
 * Download the Docker image:
@@ -129,55 +125,26 @@ $ cd cloud-python
 ```
 
 * Build the OCI images (here with Docker, but any other tool may be used):
-  + Python 3.12
-    - `py312-bookworm` tag: Debian Bookworm / Python 3.12:
+  * Python 3.14 - `py314-trixie` tag: Debian Trixie / Python 3.14:
 ```bash
-$ docker build -t infrahelpers/cloud-python:py312-bookworm python-3.12-bookworm
+$ docker build -t infrahelpers/cloud-python:py314-trixie python-3.14-trixie
 ```
-  + Python 3.11
-    - `py311-bookworm` tag: Debian Bookworm / Python 3.11:
+  * Python 3.13 - `py313-trixie` tag: Debian Trixie / Python 3.13:
 ```bash
-$ docker build -t infrahelpers/cloud-python:py311-bookworm python-3.11-bookworm
+$ docker build -t infrahelpers/cloud-python:py313-trixie python-3.13-trixie
 ```
-  + Python 3.10
-    - `py310-bookworm` tag: Debian Bookworm / Python 3.10:
+  * Python 3.12 - `py312-trixie` tag: Debian Trixie / Python 3.12:
 ```bash
-$ docker build -t infrahelpers/cloud-python:py310-bookworm python-3.10-bookworm
+$ docker build -t infrahelpers/cloud-python:py312-trixie python-3.12-trixie
 ```
-  + Python 3.9
-    - `py39-bookworm` tag: Debian Bookworm / Python 3.9:
+  * Python 3.11 - `py311-trixie` tag: Debian Trixie / Python 3.11:
 ```bash
-$ docker build -t infrahelpers/cloud-python:py39-bookworm python-3.9-bookworm
-```
-  + Python 3.8
-    - `py38-bookworm` tag: Debian Bookworm / Python 3.8:
-```bash
-$ docker build -t infrahelpers/cloud-python:py38-bookworm python-3.8-bookworm
+$ docker build -t infrahelpers/cloud-python:py311-trixie python-3.11-trixie
 ```
 
 * Deprecated. Use images for Data Processing Pipelines (DPP) instead
-  ([DPP images on Docker Hub](https://hub.docker.com/repository/docker/infrahelpers/dpp/general)
-  and
-  [DPP images on GitHub](https://github.com/data-engineering-helpers/dpp-images))
-  + Amazon Linux 2 for Elastic Map Reduce (EMR) 6 (system Python 3.7.15)
-    and DataBricks (PyEnv-based Python 3.8), with JDK 8:
-```bash
-$ docker build -t infrahelpers/cloud-python:pyspark-emr-dbs pyspark-corretto-8-emr-dbs
-```
-  + Amazon Linux 2 for Elastic Map Reduce (EMR) 6, Python 3.7.15, with JDK 8:
-```bash
-$ docker build -t infrahelpers/cloud-python:pyspark-emr6 pyspark-emr-6-corretto-8
-```
-  + Amazon Linux 2 for Elastic Map Reduce (EMR) 6, Python 3.7.10,
-    lighter image, with JDK 8:
-```bash
-$ docker build -t infrahelpers/cloud-python:pyspark-emr6-light pyspark-emr-6-corretto-8-light
-```
-  + [WIP] Amazon Linux 2 for Elastic Map Reduce (EMR), usually with
-    Python 3.7.15 (as of end 2022), with JDK 11:
-```bash
-$ docker build -t infrahelpers/cloud-python:pyspark-emr-jdk11 pyspark-emr-corretto-11
-```
+  * [DPP images on Docker Hub](https://hub.docker.com/repository/docker/infrahelpers/dpp/general)
+  * [DPP images on GitHub](https://github.com/data-engineering-helpers/dpp-images)
 
 * In addition to what the Docker Hub builds, the CI/CD (GitHub Actions)
   pipeline also builds the
@@ -191,56 +158,47 @@ $ docker build -t infrahelpers/cloud-python:pyspark-emr-jdk11 pyspark-emr-corret
   [a change on GitHub](https://github.com/cloud-helpers/cloud-python/commits/master))
 ```bash
 $ docker login
-$ docker push infrahelpers/cloud-python:pyspark-emr-dbs
-$ docker push infrahelpers/cloud-python:pyspark-emr-jdk11
-$ docker push infrahelpers/cloud-python:pyspark-emr6
-$ docker push infrahelpers/cloud-python:pyspark-emr6-light
-$ docker push infrahelpers/cloud-python:py311-bookworm
-$ docker push infrahelpers/cloud-python:py310-bookworm
-$ docker push infrahelpers/cloud-python:py39-bookworm
-$ docker push infrahelpers/cloud-python:py38-bookworm
+$ docker push infrahelpers/cloud-python:py314-trixie
+$ docker push infrahelpers/cloud-python:py313-trixie
+$ docker push infrahelpers/cloud-python:py312-trixie
+$ docker push infrahelpers/cloud-python:py311-trixie
 ```
 
 * Choose which image should be the latest, tag it and upload it to Docker Hub:
 ```bash
-$ docker push infrahelpers/cloud-python:py311-bookworm
+$ docker push infrahelpers/cloud-python:py314-trixie
 ```
 
 * (Optional) Push the newly built images to Quay.io.
   That step is usually not needed, as the images are automatically
   built everytime there is
   [a change on GitHub](https://github.com/cloud-helpers/cloud-python-images/commits/master))
-	+ Login to Quay:
+	* Login to Quay:
 ```bash
 $ docker login quay.io
 ```
-	+ Python 3.12:
+	* Python 3.14:
 ```bash
-$ docker tag infrahelpers/cloud-python:py312-bookworm quay.io/infrahelpers/cloud-python:py312-bookworm
-$ docker push quay.io/infrahelpers/cloud-python:py312-bookworm
+$ docker tag infrahelpers/cloud-python:py314-trixie quay.io/infrahelpers/cloud-python:py314-trixie
+$ docker push quay.io/infrahelpers/cloud-python:py314-trixie
 ```
-	+ Python 3.11:
+	* Python 3.13:
 ```bash
-$ docker tag infrahelpers/cloud-python:py311-bookworm quay.io/infrahelpers/cloud-python:py311-bookworm
-$ docker push quay.io/infrahelpers/cloud-python:py311-bookworm
+$ docker tag infrahelpers/cloud-python:py313-trixie quay.io/infrahelpers/cloud-python:py313-trixie
+$ docker push quay.io/infrahelpers/cloud-python:py313-trixie
 ```
-	+ Python 3.10:
+	* Python 3.12:
 ```bash
-$ docker tag infrahelpers/cloud-python:py310-bookworm quay.io/infrahelpers/cloud-python:py310-bookworm
-$ docker push quay.io/infrahelpers/cloud-python:py310-bookworm
+$ docker tag infrahelpers/cloud-python:py312-trixie quay.io/infrahelpers/cloud-python:py312-trixie
+$ docker push quay.io/infrahelpers/cloud-python:py312-trixie
 ```
-	+ Python 3.9:
+	* Python 3.11:
 ```bash
-$ docker tag infrahelpers/cloud-python:py39-bookworm quay.io/infrahelpers/cloud-python:py39-bookworm
-$ docker push quay.io/infrahelpers/cloud-python:py39-bookworm
-```
-	+ Python 3.8:
-```bash
-$ docker tag infrahelpers/cloud-python:py38-bookworm quay.io/infrahelpers/cloud-python:py38-bookworm
-$ docker push quay.io/infrahelpers/cloud-python:py38-bookworm
+$ docker tag infrahelpers/cloud-python:py311-trixie quay.io/infrahelpers/cloud-python:py311-trixie
+$ docker push quay.io/infrahelpers/cloud-python:py311-trixie
 ```
 
-* Shutdown the Docker image
+* Shutdown the Docker image:
 ```bash
 $ docker ps
 CONTAINER ID IMAGE                    COMMAND                   CREATED        STATUS        PORTS                  NAMES
