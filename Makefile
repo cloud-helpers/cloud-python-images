@@ -40,19 +40,24 @@ $(BUILD_IMGS): build-img-%: ## Build the container image
 		--build-arg DEBIAN_RELEASE=$(DEB_RELEASE) \
 		--build-arg PYTHON_MINOR_VERSION=$${py_version} \
 		-t $(DCK_REPO):$${py_version} \
+		-t $(DCK_REPO):$${py_version}-$(DEB_RELEASE) \
 		cloud-python/
 
 $(PULL_IMGS): pull-img-%: ## Pull the container image
 	@py_version="$*" && \
+	echo "PYTHON_MINOR_VERSION (py_version): $${py_version} - DEBIAN_RELEASE (DEB_RELEASE): $(DEB_RELEASE)" && \
 	docker pull $(DCK_REPO):$${py_version}
 
 $(RUN_IMGS): run-img-%: ## Run the container image
 	@py_version="$*" && \
+	echo "PYTHON_MINOR_VERSION (py_version): $${py_version} - DEBIAN_RELEASE (DEB_RELEASE): $(DEB_RELEASE)" && \
 	docker run --rm -it $(DCK_REPO):$${py_version} bash
 
 $(PUSH_IMGS): push-img-%: ## Publish the container image
 	@py_version="$*" && \
-	docker push $(DCK_REPO):$${py_version}
+	echo "PYTHON_MINOR_VERSION (py_version): $${py_version} - DEBIAN_RELEASE (DEB_RELEASE): $(DEB_RELEASE)" && \
+	docker push $(DCK_REPO):$${py_version} && \
+	docker push $(DCK_REPO):$${py_version}-$(DEB_RELEASE)
 
 $(BUILD_PUSH_IMGS): build-push-img-%: build-img-% push-img-% ## Build and push the container image
 
