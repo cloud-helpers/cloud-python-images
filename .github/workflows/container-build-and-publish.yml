@@ -50,8 +50,9 @@ jobs:
     strategy:
       matrix:
         # List of base OSes, based on Debian and/or Deb packages
-        python_minor: [3.11, 3.12, 3.13, 3.14]
-        os_img: [debian13]
+        # python_minor: [3.11, 3.12, 3.13, 3.14]
+        python_minor: [3.11, 3.12]
+        os_img: [trixie]
 
     # https://github.com/cpp-projects-showcase/docker-images/settings/environments/4430897264/edit
     environment: docker-hub
@@ -85,29 +86,42 @@ jobs:
         #  endpoint: "${{ env.ORG_NAME}}/default"
         #  install: true
 
-      # https://github.com/docker/metadata-action
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
+      - name: Compact Minor Version
+        id: compact_minor_version
+        run: |
+          compact_minor_version=$(echo "${{ matrix.python_minor_version }}" | tr -d '.')
+          echo "compact_minor_version=${compact_minor_version}" >> $GITHUB_OUTPUT
+
+      # https://github.com/benjlevesque/short-sha
+      - name: Load short sha
+        uses: benjlevesque/short-sha@v3.0
+        id: short-sha
         with:
-          images: ${{ env.IMAGE_NAME }}:${{ matrix.os_img }}
-        
-      - name: Run privileged
-        run: sudo docker run --privileged --rm tonistiigi/binfmt --install arm64
+          length: 7
 
       # https://github.com/docker/build-push-action
-      - name: Build image
-        id: container_build_image
+      - name: Build and push image
+        id: container_build_push_image
         uses: docker/build-push-action@v6
         with:
           builder: ${{ steps.buildx.outputs.name }}
-          context: python-${{ matrix.python_minor }}-${{ matrix.os_img }}
-          file: python-${{ matrix.python_minor }}-${{ matrix.os_img }}/Dockerfile
+          context: ./cloud-python
+          file: ./cloud-python/Dockerfile
+          build-args: |
+            DEBIAN_RELEASE=${{ matrix.os_img }}
+            PYTHON_MINOR_VERSION=${{ matrix.python_minor }}
           push: true
           provenance: mode=max
           sbom: true
           tags: |
-            ${{ env.IMAGE_NAME }}:${{ matrix.os_img }}
+            ${{ env.IMAGE_NAME }}:py${{ matrix.python_minor }}-${{ matrix.os_img }}
+            ${{ env.IMAGE_NAME }}:py${{ matrix.python_minor }}-${{ matrix.os_img }}-${{ env.SHA }}
+            ${{ env.IMAGE_NAME }}:py${{ matrix.python_minor }}
+            ${{ env.IMAGE_NAME }}:py${{ matrix.python_minor }}-${{ env.SHA }}
+            ${{ env.IMAGE_NAME }}:py${{ steps.compact_minor_version.outputs.compact_minor_version }}-${{ matrix.os_img }}
+            ${{ env.IMAGE_NAME }}:py${{ steps.compact_minor_version.outputs.compact_minor_version }}-${{ matrix.os_img }}-${{ env.SHA }}
+            ${{ env.IMAGE_NAME }}:py${{ steps.compact_minor_version.outputs.compact_minor_version }}
+            ${{ env.IMAGE_NAME }}:py${{ steps.compact_minor_version.outputs.compact_minor_version }}-${{ env.SHA }}
           # For pull requests, export results to the build cache.
           # Otherwise, push to a registry.
           # Uncomment the following 3 lines to activate the Docker Cloud builds

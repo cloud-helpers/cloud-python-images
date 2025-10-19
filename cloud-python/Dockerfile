@@ -1,25 +1,31 @@
 #
-# Source: https://github.com/cloud-helpers/cloud-python/tree/master/python-3.11-trixie/Dockerfile
+# Source: https://github.com/cloud-helpers/cloud-python/tree/main/cloud-python/Dockerfile
 # On Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/cloud-python/general
-# Usual Docker tag: py311-trixie (infrahelpers/cloud-python:py311-trixie)
+# Usual Docker tag: py${PYTHON_MINOR_VERSION}-${DEBIAN_RELEASE} (infrahelpers/cloud-python:py${PYTHON_MINOR_VERSION}-${DEBIAN_RELEASE})
 #
 
 # See also:
-# * Python 3.11 Debian Trixie:
-#   + Image on Docker Hub/Cloud: https://hub.docker.com/_/python?tab=tags&page=1&name=3.11-trixie
-#   + Dockerfile: https://github.com/docker-library/python/blob/master/3.11/trixie/Dockerfile
+# * Python ${PYTHON_MINOR_VERSION} Debian ${DEBIAN_RELEASE}:
+#   * Image on Docker Hub/Cloud: https://hub.docker.com/_/python?tab=tags&page=1&name=3.12-trixie
+#   * Dockerfile: https://github.com/docker-library/python/blob/master/3.12/trixie/Dockerfile
 # * The best Docker base image for your Python application, June 2023:
 #   https://pythonspeed.com/articles/base-image-python-docker-images/
-# * General purpose Debian 12 (Trixie) C++/Python development image:
-#   + Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/cpppython/general
-#   + Dockerfile: https://github.com/cpp-projects-showcase/docker-images/tree/master/debian12
-# * Python light based on Debian 12 (Trixie):
-#   + Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/python-light/general
-#   + Dockerfile: https://github.com/machine-learning-helpers/docker-python-light/blob/master/docker/python-3.11-trixie/Dockerfile
+# * General purpose Debian C++/Python development image:
+#   * Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/cpppython/general
+#   * Dockerfile: https://github.com/cpp-projects-showcase/docker-images/tree/main/debian13
+# * Data processing pipeline (DPP), using Python light based on Debian:
+#   * Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/dpp/general
+#   * Dockerfile: https://github.com/data-engineering-helpers/dpp-images/blob/main/python-slim/Dockerfile
 #
-FROM python:3.11-trixie
+ARG DEBIAN_RELEASE="trixie"
+ARG PYTHON_MINOR_VERSION="3.11"
+FROM python:${PYTHON_MINOR_VERSION}-${DEBIAN_RELEASE}
 
-LABEL authors="Denis Arnaud <denis.arnaud_github at m4x dot org>"
+LABEL authors="Denis Arnaud <denis.arnaud_fedora@m4x.org>"
+
+# https://docs.docker.com/reference/dockerfile/#understand-how-arg-and-from-interact
+ARG DEBIAN_RELEASE
+ARG PYTHON_MINOR_VERSION
 
 # Environment
 
@@ -101,15 +107,16 @@ ADD resources/vimrc $HOME/.vimrc
 RUN chmod 640 $HOME/.bashrc $HOME/.gitconfig $HOME/.vimrc
 
 # yq, the YAML CLI utility like jq, for YAML (https://github.com/mikefarah/yq)
-RUN YQ_VER=$(curl -Ls https://api.github.com/repos/mikefarah/yq/releases/latest | grep 'tag_name' | cut -d'v' -f2,2 | cut -d'"' -f1,1) && \
-	architecture=$(uname -m|sed 's/x86_/amd/') && \
+RUN YQ_VER=$(curl -Ls https://api.github.com/repos/mikefarah/yq/releases/latest | grep 'tag_name' | cut -d'v' -f2 | cut -d'"' -f1) && \
+	architecture=$(uname -m|sed 's/x86_/amd/'|sed 's/aarch/arm/') && \
 	echo "YQ_VER=${YQ_VER} - architecture=${architecture}" && \
-	curl -Ls \
-	    https://github.com/mikefarah/yq/releases/download/v${YQ_VER}/yq_linux_${architecture} -o /usr/local/bin/yq && \
+	curl -Ls https://github.com/mikefarah/yq/releases/download/v${YQ_VER}/yq_linux_${architecture} \
+	     -o /usr/local/bin/yq && \
 	chmod +x /usr/local/bin/yq
 
 # SOCI (https://github.com/SOCI/soci)
 RUN mkdir -p /opt/soci
+ADD resources/soci-debian-cmake.patch /opt/soci/soci-debian-cmake.patch
 RUN SOCI_VER=$(curl -Ls https://api.github.com/repos/SOCI/soci/tags|jq -r '.[].name'|grep "^v"|sort -r|head -1|cut -d'v' -f2,2) && \
 	curl -Ls \
          https://github.com/SOCI/soci/archive/refs/tags/v${SOCI_VER}.tar.gz \
@@ -117,51 +124,47 @@ RUN SOCI_VER=$(curl -Ls https://api.github.com/repos/SOCI/soci/tags|jq -r '.[].n
     tar zxf soci-${SOCI_VER}.tar.gz && rm -f soci-${SOCI_VER}.tar.gz && \
     cd soci-${SOCI_VER} && mkdir -p build && cd build && \
     cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release \
-          -DSOCI_TESTS=OFF .. && \
+          -DSOCI_CXX11=ON -DSOCI_TESTS=OFF .. && \
     make install
 
 # Cloud helpers Shell scripts (https://github.com/cloud-helpers/k8s-job-wrappers)
-RUN KJW_VER=$(curl -Ls https://api.github.com/repos/cloud-helpers/k8s-job-wrappers/releases/latest | grep 'tag_name' | cut -d'v' -f2,2 | cut -d'"' -f1,1) && \
-        echo "KJW_VER=${KJW_VER}" && \
-        curl -Ls \
-        https://github.com/cloud-helpers/k8s-job-wrappers/archive/refs/tags/v${KJW_VER}.tar.gz -o k8s-job-wrappers.tar.gz && \
+RUN KJW_VER=$(curl -Ls https://api.github.com/repos/cloud-helpers/k8s-job-wrappers/tags|jq -r '.[].name'|grep "^v"|sort -r|head -1|cut -d'v' -f2,2) && \
+	curl -Ls \
+	  https://github.com/cloud-helpers/k8s-job-wrappers/archive/refs/tags/v${KJW_VER}.tar.gz \
+         -o k8s-job-wrappers.tar.gz && \
     tar zxf k8s-job-wrappers.tar.gz && rm -f k8s-job-wrappers.tar.gz && \
     mv -f k8s-job-wrappers-${KJW_VER} /usr/local/ && \
     ln -s /usr/local/k8s-job-wrappers-${KJW_VER} /usr/local/k8s-job-wrappers
 
 # AWS: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
 RUN architecture=$(uname -m) && \
-        echo "architecture=${architecture}" && \
-        curl -Ls https://awscli.amazonaws.com/awscli-exe-linux-${architecture}.zip -o awscliv2.zip && \
-        unzip -q awscliv2.zip && rm -f awscliv2.zip && \
+	echo "architecture=${architecture}" && \
+	curl -Ls https://awscli.amazonaws.com/awscli-exe-linux-${architecture}.zip -o awscliv2.zip && \
+	unzip -q awscliv2.zip && rm -f awscliv2.zip && \
 	./aws/install && aws --version && rm -rf ./aws
 
-# Oracle instant clients
+# Oracle instant clients: https://www.oracle.com/database/technologies/instant-client/downloads.html
+# * Linux AMD64: https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html
+# * Linux ARM4 (aarch64): https://www.oracle.com/database/technologies/instant-client/linux-arm-aarch64-downloads.html
 RUN mkdir -p /opt/oracle/archives && \
-    curl -L -s https://download.oracle.com/otn_software/linux/instantclient/${ORCL_CLT_VER}/instantclient-basic-linux.x64-${ORCL_CLT_VER_FULL}.zip \
-         -o /opt/oracle/archives/instantclient-basic-linux.x64-${ORCL_CLT_VER_FULL}.zip && \
-    curl -L -s https://download.oracle.com/otn_software/linux/instantclient/${ORCL_CLT_VER}/instantclient-sqlplus-linux.x64-${ORCL_CLT_VER_FULL}.zip \
-         -o /opt/oracle/archives/instantclient-sqlplus-linux.x64-${ORCL_CLT_VER_FULL}.zip && \
-    curl -L -s https://download.oracle.com/otn_software/linux/instantclient/${ORCL_CLT_VER}/instantclient-sdk-linux.x64-${ORCL_CLT_VER_FULL}.zip \
-         -o /opt/oracle/archives/instantclient-sdk-linux.x64-${ORCL_CLT_VER_FULL}.zip && \
-    curl -L -s https://download.oracle.com/otn_software/linux/instantclient/${ORCL_CLT_VER}/instantclient-jdbc-linux.x64-${ORCL_CLT_VER_FULL}.zip \
-         -o /opt/oracle/archives/instantclient-jdbc-linux.x64-${ORCL_CLT_VER_FULL}.zip && \
-    curl -L -s https://download.oracle.com/otn_software/linux/instantclient/${ORCL_CLT_VER}/instantclient-odbc-linux.x64-${ORCL_CLT_VER_FULL}.zip \
-         -o /opt/oracle/archives/instantclient-odbc-linux.x64-${ORCL_CLT_VER_FULL}.zip && \
-    curl -L -s https://download.oracle.com/otn_software/linux/instantclient/${ORCL_CLT_VER}/instantclient-tools-linux.x64-${ORCL_CLT_VER_FULL}.zip \
-         -o /opt/oracle/archives/instantclient-tools-linux.x64-${ORCL_CLT_VER_FULL}.zip && \
-    unzip -q /opt/oracle/archives/instantclient-basic-linux.x64-${ORCL_CLT_VER_FULL}.zip \
-          -d /opt/oracle && \
-    unzip -q /opt/oracle/archives/instantclient-sqlplus-linux.x64-${ORCL_CLT_VER_FULL}.zip \
-          -d /opt/oracle && \
-    unzip -q /opt/oracle/archives/instantclient-sdk-linux.x64-${ORCL_CLT_VER_FULL}.zip \
-          -d /opt/oracle && \
-    unzip -q /opt/oracle/archives/instantclient-jdbc-linux.x64-${ORCL_CLT_VER_FULL}.zip \
-          -d /opt/oracle && \
-    unzip -q /opt/oracle/archives/instantclient-odbc-linux.x64-${ORCL_CLT_VER_FULL}.zip \
-          -d /opt/oracle && \
-    unzip -q /opt/oracle/archives/instantclient-tools-linux.x64-${ORCL_CLT_VER_FULL}.zip \
-          -d /opt/oracle
+	architecture=$(uname -m|sed 's/x86_/x/'|sed 's/aarch/arm/') && \
+    echo "ORCL_CLT_VER=${ORCL_CLT_VER} - ORCL_CLT_VER_FULL=${ORCL_CLT_VER_FULL} - architecture=${architecture}" && \
+    curl -kLs https://download.oracle.com/otn_software/linux/instantclient/${ORCL_CLT_VER}/instantclient-basic-linux.${architecture}-${ORCL_CLT_VER_FULL}.zip \
+          -o /opt/oracle/archives/instantclient-basic-linux.${architecture}-${ORCL_CLT_VER_FULL}.zip && \
+    curl -kLs https://download.oracle.com/otn_software/linux/instantclient/${ORCL_CLT_VER}/instantclient-sqlplus-linux.${architecture}-${ORCL_CLT_VER_FULL}.zip \
+         -o /opt/oracle/archives/instantclient-sqlplus-linux.${architecture}-${ORCL_CLT_VER_FULL}.zip && \
+    curl -kLs https://download.oracle.com/otn_software/linux/instantclient/${ORCL_CLT_VER}/instantclient-sdk-linux.${architecture}-${ORCL_CLT_VER_FULL}.zip \
+         -o /opt/oracle/archives/instantclient-sdk-linux.${architecture}-${ORCL_CLT_VER_FULL}.zip && \
+    curl -kLs https://download.oracle.com/otn_software/linux/instantclient/${ORCL_CLT_VER}/instantclient-jdbc-linux.${architecture}-${ORCL_CLT_VER_FULL}.zip \
+         -o /opt/oracle/archives/instantclient-jdbc-linux.${architecture}-${ORCL_CLT_VER_FULL}.zip && \
+    curl -kLs https://download.oracle.com/otn_software/linux/instantclient/${ORCL_CLT_VER}/instantclient-odbc-linux.${architecture}-${ORCL_CLT_VER_FULL}.zip \
+         -o /opt/oracle/archives/instantclient-odbc-linux.${architecture}-${ORCL_CLT_VER_FULL}.zip && \
+    curl -kLs https://download.oracle.com/otn_software/linux/instantclient/${ORCL_CLT_VER}/instantclient-tools-linux.${architecture}-${ORCL_CLT_VER_FULL}.zip \
+	-o /opt/oracle/archives/instantclient-tools-linux.${architecture}-${ORCL_CLT_VER_FULL}.zip && \
+	for zipfile in /opt/oracle/archives/*.zip; do \
+	echo "zipfile: ${zipfile}" && \
+	unzip -o -q ${zipfile} -d /opt/oracle && rm -f ${zipfile}; done
+
 # Configure Oracle clients for the root user
 RUN echo "" >> /root/.bashrc && \
     echo "# Oracle Instant clients: ${ORCL_CLT_VER_FULL}" >> /root/.bashrc && \
@@ -189,7 +192,7 @@ RUN python -mpip install -U ipython
 RUN python -mpip install -U jupyterlab
 RUN python -mpip install -U opentraveldata OpenTrepWrapper Neobase
 RUN python -mpip install -U elasticsearch kafka-python
-RUN python -mpip install -U psycopg2
+RUN python -mpip install -U psycopg
 RUN python -mpip install -U boto3 awsume
 RUN python -mpip install -U databricks-cli
 RUN python -mpip install -U azure-cli
