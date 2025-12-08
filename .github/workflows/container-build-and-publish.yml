@@ -51,7 +51,7 @@ jobs:
       matrix:
         # List of base OSes, based on Debian and/or Deb packages
         # python_minor: [3.11, 3.12, 3.13, 3.14]
-        python_minor: [3.11, 3.12]
+        python_minor: [3.12, 3.13]
         os_img: [trixie]
 
     # https://github.com/cpp-projects-showcase/docker-images/settings/environments/4430897264/edit

@@ -18,7 +18,7 @@
 #   * Dockerfile: https://github.com/data-engineering-helpers/dpp-images/blob/main/python-slim/Dockerfile
 #
 ARG DEBIAN_RELEASE="trixie"
-ARG PYTHON_MINOR_VERSION="3.11"
+ARG PYTHON_MINOR_VERSION="3.12"
 FROM python:${PYTHON_MINOR_VERSION}-${DEBIAN_RELEASE}
 
 LABEL authors="Denis Arnaud <denis.arnaud_fedora@m4x.org>"
@@ -182,20 +182,20 @@ RUN python -mpip install -U psutil dill joblib
 RUN python -mpip install -U setuptools wheel build scikit-build
 RUN python -mpip install -U pytest tox twine
 #RUN python -mpip install -U pyjq pyyaml
-RUN python -mpip install -U numpy pandas pandas-datareader
-RUN python -mpip install -U scikit-learn
-RUN python -mpip install -U matplotlib seaborn
-RUN python -mpip install -U dash connexion requests
-RUN python -mpip install -U flask flask_restful
-RUN python -mpip install -U fastapi
+#RUN python -mpip install -U numpy pandas pandas-datareader
+#RUN python -mpip install -U scikit-learn
+#RUN python -mpip install -U matplotlib seaborn
+#RUN python -mpip install -U dash connexion requests
+#RUN python -mpip install -U flask flask_restful
+#RUN python -mpip install -U fastapi
 RUN python -mpip install -U ipython
 RUN python -mpip install -U jupyterlab
 RUN python -mpip install -U opentraveldata OpenTrepWrapper Neobase
-RUN python -mpip install -U elasticsearch kafka-python
-RUN python -mpip install -U psycopg
-RUN python -mpip install -U boto3 awsume
-RUN python -mpip install -U databricks-cli
-RUN python -mpip install -U azure-cli
+#RUN python -mpip install -U elasticsearch kafka-python
+#RUN python -mpip install -U psycopg
+#RUN python -mpip install -U boto3 awsume
+#RUN python -mpip install -U databricks-cli
+#RUN python -mpip install -U azure-cli
 
 #
 CMD ["/bin/bash"]
