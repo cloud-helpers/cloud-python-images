@@ -90,7 +90,7 @@ RUN apt-get -qq update && \
 	lsb-release libgmp-dev \
 	gcc g++ cppcheck clang cmake manpages patch pkg-config \
 	m4 autoconf automake libtool libltdl-dev build-essential \
-	flex bison \
+	flex bison libfmt-dev \
 	libboost-all-dev libxapian-dev \
 	libreadline-dev libncurses5-dev \
 	libzmq5-dev libczmq-dev libssl-dev libffi-dev \
