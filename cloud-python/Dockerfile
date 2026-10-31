@@ -118,11 +118,10 @@ RUN YQ_VER=$(curl -Ls https://api.github.com/repos/mikefarah/yq/releases/latest 
 RUN mkdir -p /opt/soci
 ADD resources/soci-debian-cmake.patch /opt/soci/soci-debian-cmake.patch
 RUN SOCI_VER=$(curl -Ls https://api.github.com/repos/SOCI/soci/tags|jq -r '.[].name'|grep "^v"|sort -r|head -1|cut -d'v' -f2,2) && \
-	curl -Ls \
-         https://github.com/SOCI/soci/archive/refs/tags/v${SOCI_VER}.tar.gz \
-         -o /opt/soci/soci-${SOCI_VER}.tar.gz && cd /opt/soci && \
-    tar zxf soci-${SOCI_VER}.tar.gz && rm -f soci-${SOCI_VER}.tar.gz && \
-    cd soci-${SOCI_VER} && mkdir -p build && cd build && \
+    git clone --depth 1 --recurse-submodules --shallow-submodules \
+         --branch "v${SOCI_VER}" https://github.com/SOCI/soci.git \
+         /opt/soci/soci-${SOCI_VER} && \
+    cd /opt/soci/soci-${SOCI_VER} && mkdir -p build && cd build && \
     cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release \
           -DSOCI_CXX11=ON -DSOCI_TESTS=OFF .. && \
     make install
