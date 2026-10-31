@@ -17,9 +17,19 @@
 #   * Docker Hub: https://hub.docker.com/repository/docker/infrahelpers/dpp/general
 #   * Dockerfile: https://github.com/data-engineering-helpers/dpp-images/blob/main/python-slim/Dockerfile
 #
+# Base image: Debian-based slim Python
+# * Docker Hub:
+#   * General: https://hub.docker.com/_/python
+#   * Python 3.11 Trixie: https://hub.docker.com/layers/library/python/3.11-slim-trixie
+# * Dockerfile:
+#  * General: https://github.com/docker-library/python
+#  * Python 3.11 Trixie: https://github.com/docker-library/python/blob/master/3.11/slim-trixie/Dockerfile
+#
+# Debian releases: https://www.debian.org/releases/
+#
 ARG DEBIAN_RELEASE="trixie"
 ARG PYTHON_MINOR_VERSION="3.12"
-FROM python:${PYTHON_MINOR_VERSION}-${DEBIAN_RELEASE}
+FROM python:${PYTHON_MINOR_VERSION}-slim-${DEBIAN_RELEASE}
 
 LABEL authors="Denis Arnaud <denis.arnaud_fedora@m4x.org>"
 
@@ -39,6 +49,9 @@ ENV LANG="en_US.UTF-8"
 ENV LANG4GEN="en_US.utf8"
 ENV LC_ALL="en_US.UTF-8"
 
+## SOCI (https://github.com/SOCI/soci)
+ENV DEF_SOCI_VER="4.1.4"
+
 ## Oracle - Check https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html
 ENV ORCL_CLT_VER_MAJOR="23_9"
 ENV ORCL_CLT_VER="2390000"
@@ -48,15 +61,21 @@ ENV NLS_LANG=".AL32UTF8"
 # Update the system
 #RUN echo "Europe/Paris" > /etc/timezone
 RUN echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/90-yes
-RUN apt-get -qq update && apt-get -y upgrade
-RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends \
-	apt-utils apt-transport-https \
-	ca-certificates locales locales-all tzdata sudo \
-	zip unzip gzip bzip2 xz-utils tar p7zip-full \
-	curl wget netcat-traditional net-tools aptitude
+RUN apt-get -qq update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends \
+        apt-transport-https ca-certificates locales tzdata \
+	gpg libcap2-bin \
+        zip unzip gzip bzip2 xz-utils tar p7zip-full \
+        curl wget netcat-traditional net-tools bind9-host \
+	procps less htop gawk bash-completion vim-nox emacs-nox keyutils \
+	checkinstall lsb-release patch pkg-config jq && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Generate the locales
-RUN locale-gen $LANG && \
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
+    printf '%s\n' LANG=$LANG LC_ALL=$LC_ALL LANGUAGE=$LANGUAGE \
+		   > /etc/default/locale && \
+    locale-gen $LANG && \
     update-locale LANG=$LANG LANGUAGE=$LANGUAGE LC_ALL=$LC_ALL
 
 # Configure the time-zone
@@ -107,41 +126,66 @@ ADD resources/vimrc $HOME/.vimrc
 RUN chmod 640 $HOME/.bashrc $HOME/.gitconfig $HOME/.vimrc
 
 # yq, the YAML CLI utility like jq, for YAML (https://github.com/mikefarah/yq)
-RUN YQ_VER=$(curl -Ls https://api.github.com/repos/mikefarah/yq/releases/latest | grep 'tag_name' | cut -d'v' -f2 | cut -d'"' -f1) && \
-	architecture=$(uname -m|sed 's/x86_/amd/'|sed 's/aarch/arm/') && \
-	echo "YQ_VER=${YQ_VER} - architecture=${architecture}" && \
-	curl -Ls https://github.com/mikefarah/yq/releases/download/v${YQ_VER}/yq_linux_${architecture} \
-	     -o /usr/local/bin/yq && \
-	chmod +x /usr/local/bin/yq
+RUN YQ_VER=$(curl -Ls https://api.github.com/repos/mikefarah/yq/releases/latest | grep 'tag_name' | cut -d'v' -f2,2 | cut -d'"' -f1,1) && \
+        architecture=$(uname -m|sed 's/x86_/amd/'|sed 's/aarch/arm/') && \
+        echo "YQ_VER=${YQ_VER} - architecture=${architecture}" && \
+        curl -Ls \
+            https://github.com/mikefarah/yq/releases/download/v${YQ_VER}/yq_linux_${architecture} -o /usr/local/bin/yq && \
+        chmod +x /usr/local/bin/yq && yq --version
 
-# SOCI (https://github.com/SOCI/soci)
-RUN mkdir -p /opt/soci
-ADD resources/soci-debian-cmake.patch /opt/soci/soci-debian-cmake.patch
-RUN SOCI_VER=$(curl -Ls https://api.github.com/repos/SOCI/soci/tags|jq -r '.[].name'|grep "^v"|sort -r|head -1|cut -d'v' -f2,2) && \
-	curl -Ls \
-         https://github.com/SOCI/soci/archive/refs/tags/v${SOCI_VER}.tar.gz \
-         -o /opt/soci/soci-${SOCI_VER}.tar.gz && cd /opt/soci && \
-    tar zxf soci-${SOCI_VER}.tar.gz && rm -f soci-${SOCI_VER}.tar.gz && \
-    cd soci-${SOCI_VER} && mkdir -p build && cd build && \
-    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release \
-          -DSOCI_CXX11=ON -DSOCI_TESTS=OFF .. && \
-    make install
+# usql, the universal CLI tool for databases (https://github.com/xo/usql)
+RUN USQL_VER=$(curl -Ls https://api.github.com/repos/xo/usql/releases/latest | grep 'tag_name' | cut -d'v' -f2,2 | cut -d'"' -f1,1) && \
+        architecture=$(uname -m|sed 's/x86_/amd/'|sed 's/aarch/arm/') && \
+        echo "USQL_VER=${USQL_VER} - architecture=${architecture}" && \
+        curl -Ls \
+        https://github.com/xo/usql/releases/download/v${USQL_VER}/usql-${USQL_VER}-linux-${architecture}.tar.bz2 -o usql.tar.bz2 && \
+        tar jxf usql.tar.bz2 && rm -f usql.tar.bz2 LICENSE && \
+        mv usql /usr/local/bin/usql && chmod +x /usr/local/bin/usql && usql --version
 
 # Cloud helpers Shell scripts (https://github.com/cloud-helpers/k8s-job-wrappers)
-RUN KJW_VER=$(curl -Ls https://api.github.com/repos/cloud-helpers/k8s-job-wrappers/tags|jq -r '.[].name'|grep "^v"|sort -r|head -1|cut -d'v' -f2,2) && \
-	curl -Ls \
-	  https://github.com/cloud-helpers/k8s-job-wrappers/archive/refs/tags/v${KJW_VER}.tar.gz \
-         -o k8s-job-wrappers.tar.gz && \
+RUN KJW_VER=$(curl -Ls https://api.github.com/repos/cloud-helpers/k8s-job-wrappers/releases/latest | grep 'tag_name' | cut -d'v' -f2,2 | cut -d'"' -f1,1) && \
+        echo "KJW_VER=${KJW_VER}" && \
+        curl -Ls \
+        https://github.com/cloud-helpers/k8s-job-wrappers/archive/refs/tags/v${KJW_VER}.tar.gz -o k8s-job-wrappers.tar.gz && \
     tar zxf k8s-job-wrappers.tar.gz && rm -f k8s-job-wrappers.tar.gz && \
     mv -f k8s-job-wrappers-${KJW_VER} /usr/local/ && \
     ln -s /usr/local/k8s-job-wrappers-${KJW_VER} /usr/local/k8s-job-wrappers
 
 # AWS: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
 RUN architecture=$(uname -m) && \
-	echo "architecture=${architecture}" && \
-	curl -Ls https://awscli.amazonaws.com/awscli-exe-linux-${architecture}.zip -o awscliv2.zip && \
-	unzip -q awscliv2.zip && rm -f awscliv2.zip && \
+        echo "architecture=${architecture}" && \
+        curl -Ls https://awscli.amazonaws.com/awscli-exe-linux-${architecture}.zip -o awscliv2.zip && \
+        unzip -q awscliv2.zip && rm -f awscliv2.zip && \
 	./aws/install && aws --version && rm -rf ./aws
+
+# HashiCorp Vault (https://developer.hashicorp.com/vault/install)
+# See also the setcap issue in Docker: https://github.com/hashicorp/vault/issues/10924
+RUN deb_release="$(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs)" && \
+    architecture="$(dpkg --print-architecture)" && \
+    echo "deb_release=${deb_release} - architecture=${architecture}" && \
+    wget -O - https://apt.releases.hashicorp.com/gpg | \
+    	 gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg && \
+    echo "deb [arch=${architecture} signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com ${deb_release} main" | \
+    	 tee /etc/apt/sources.list.d/hashicorp.list && \
+    apt-get -qq update && apt-get -y install vault && \
+    chmod +x /usr/bin/vault && setcap -r /usr/bin/vault && vault --version && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# SOCI (https://github.com/SOCI/soci)
+RUN mkdir -p /opt/soci
+RUN SOCI_JSON=$(curl -Ls https://api.github.com/repos/SOCI/soci/tags) && \
+    SOCI_VER=$(echo "$SOCI_JSON" | jq -r ".[].name" 2>/dev/null | grep "^v" | sort -r | head -1 | cut -d"v" -f2,2 || true); \
+    if [ -z "${SOCI_VER}" ]; then \
+      echo "Warning: Could not determine SOCI version from GitHub, using default one (${DEF_SOCI_VER})"; \
+      SOCI_VER="${DEF_SOCI_VER}"; \
+    fi && \
+	curl -Ls "https://github.com/SOCI/soci/archive/refs/tags/v${SOCI_VER}.tar.gz" \
+	  -o /opt/soci/soci-${SOCI_VER}.tar.gz && cd /opt/soci && \
+	tar zxf soci-${SOCI_VER}.tar.gz && rm -f soci-${SOCI_VER}.tar.gz && \
+	cd soci-${SOCI_VER} && mkdir -p build && cd build && \
+	cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release \
+	  -DSOCI_TESTS=OFF .. && \
+    make install
 
 # Oracle instant clients: https://www.oracle.com/database/technologies/instant-client/downloads.html
 # * Linux AMD64: https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html
